@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manage Questions — Panther Bob Quiz</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Panther Bob Quiz</h1>
+      <p class="subtitle">Manage Questions</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">&larr; Back to Game</a>
+    </nav>
+  </header>
+
+  <main id="admin-app">
+
+    <section class="panel">
+      <h2>Add a Single Question</h2>
+      <p class="hint">Every clue should be an obscure fact or detail — players answer with just the book's title and author, so the clue itself doesn't need to name them.</p>
+
+      <form id="add-question-form" class="admin-form">
+        <div class="form-row">
+          <label for="q-category">Category</label>
+          <select id="q-category" required></select>
+        </div>
+        <div class="form-row">
+          <label for="q-points">Difficulty (points)</label>
+          <select id="q-points" required>
+            <option value="100">100 — easiest</option>
+            <option value="200">200</option>
+            <option value="300">300</option>
+            <option value="400">400</option>
+            <option value="500">500 — most obscure</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="q-clue">Clue</label>
+          <textarea id="q-clue" rows="3" required placeholder="e.g. This character's best friend has been missing for ten years before the story begins."></textarea>
+        </div>
+        <div class="form-row">
+          <label for="q-title">Book Title</label>
+          <input id="q-title" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="q-author">Author</label>
+          <input id="q-author" type="text" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Add Question</button>
+      </form>
+      <p id="add-status" class="status-msg"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Import Multiple Questions</h2>
+      <p class="hint">
+        Upload a CSV or JSON file. CSV needs a header row with these exact columns:
+        <code>category,points,clue,answerTitle,answerAuthor</code>.
+        JSON should be an array of objects with those same fields.
+      </p>
+      <input type="file" id="import-file" accept=".csv,.json" />
+      <div id="import-preview" class="import-preview hidden">
+        <h3>Preview</h3>
+        <div id="import-preview-table"></div>
+        <button id="confirm-import-btn" class="btn btn-primary">Import These Questions</button>
+        <button id="cancel-import-btn" class="btn btn-ghost">Cancel</button>
+      </div>
+      <p id="import-status" class="status-msg"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Question Bank</h2>
+      <p class="hint" id="bank-summary"></p>
+      <div id="bank-table"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="admin.js"></script>
+</body>
+</html>

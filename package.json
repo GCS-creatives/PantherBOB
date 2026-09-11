@@ -1,0 +1,9 @@
+{
+  "name": "panther-bob-quiz",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Panther Bob Quiz — a Jeopardy-style game for NC Middle School Battle of the Books.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

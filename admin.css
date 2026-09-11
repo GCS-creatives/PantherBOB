@@ -1,0 +1,82 @@
+#admin-app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 560px;
+}
+.form-row { display: flex; flex-direction: column; gap: 6px; }
+.form-row label { font-weight: 600; font-size: 0.9rem; color: var(--muted); }
+.form-row input,
+.form-row select,
+.form-row textarea {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.status-msg {
+  min-height: 1.2em;
+  font-weight: 600;
+}
+.status-msg.success { color: var(--green); }
+.status-msg.error { color: var(--red); }
+
+.import-preview {
+  margin-top: 16px;
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+}
+.import-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+.import-preview th, .import-preview td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+.import-preview th { background: #f4f5ff; }
+.row-error { color: var(--red); font-weight: 600; }
+
+#bank-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+#bank-table th, #bank-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  vertical-align: top;
+}
+#bank-table th { background: #f4f5ff; position: sticky; top: 0; }
+#bank-table td.clue-cell { max-width: 320px; }
+.delete-btn {
+  background: var(--red);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+.bank-scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}

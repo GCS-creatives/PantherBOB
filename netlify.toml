@@ -1,0 +1,12 @@
+[build]
+  functions = "netlify/functions"
+  publish = "."
+
+[[redirects]]
+  from = "/api/questions"
+  to = "/.netlify/functions/questions"
+  status = 200
+  force = true
+
+[functions]
+  node_bundler = "esbuild"
