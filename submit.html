@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Submit a Question — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="submit.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Submit a BOB Question</h1>
+      <p class="subtitle">Write your own trivia question — a teacher will review it before it's used</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+    </nav>
+  </header>
+
+  <main id="submit-app">
+    <section class="panel">
+      <h2>Tips for writing a great question</h2>
+      <ul class="tip-list">
+        <li>Start with <strong>"In which book"</strong> — that part's already filled in for you below.</li>
+        <li>Make it specific to one exact moment in the book — something you could point to on one page.</li>
+        <li>Include the page number where the answer is found.</li>
+        <li>Don't give away too much — <strong>avoid using character names, place names, or the book's title</strong> in your question.</li>
+        <li>Avoid anything too obscure or unimportant — pick a moment that matters to the story.</li>
+      </ul>
+
+      <div class="tip-example">
+        <strong>Example:</strong> "In which book does the main character get his brother goggles for his birthday? (p. 6)"
+      </div>
+
+      <form id="submit-form" class="admin-form">
+        <div class="form-row">
+          <label for="sq-name">Your name (or first initial)</label>
+          <input id="sq-name" type="text" maxlength="40" placeholder="e.g. Jordan, or J.M." />
+        </div>
+        <div class="form-row">
+          <label for="sq-book">Which book is your question about?</label>
+          <select id="sq-book" required></select>
+        </div>
+        <div class="form-row">
+          <label for="sq-question">In which book...</label>
+          <textarea id="sq-question" rows="2" required placeholder="does the main character find a hidden letter under the floorboards"></textarea>
+        </div>
+        <div class="form-row">
+          <label for="sq-page">Page number where the answer is found</label>
+          <input id="sq-page" type="number" min="1" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-large">Submit for Review</button>
+      </form>
+      <p id="submit-status" class="status-msg"></p>
+
+      <div id="submit-preview" class="submit-preview hidden">
+        <strong>Preview:</strong>
+        <p id="submit-preview-text"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="submit.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Review Student Questions — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="admin.css" />
+<link rel="stylesheet" href="review.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Review Student Questions</h1>
+      <p class="subtitle">Approve into the board game, or reject</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="review-app">
+
+    <section class="panel">
+      <h2>Pending (<span id="pending-count">0</span>)</h2>
+      <p class="hint">Reminder while reviewing: good questions are specific to one page, don't name characters/places/the title, and aren't about anything trivial.</p>
+      <div id="pending-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Approved</h2>
+      <div id="approved-list"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Rejected</h2>
+      <div id="rejected-list"></div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="review.js"></script>
+</body>
+</html>

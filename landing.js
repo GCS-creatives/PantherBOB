@@ -41,6 +41,12 @@ const GAMES = [
     description: "Solo practice — author is the clue, book title is the answer. 4 short rounds cover all 16 books.",
     href: "crossword.html",
   },
+  {
+    name: "Student Questions",
+    emoji: "🙋",
+    description: "Practice with teacher-approved questions written by classmates.",
+    href: "student-quiz.html",
+  },
 ];
 
 const RESOURCES = [
@@ -58,6 +64,13 @@ const RESOURCES = [
     href: "https://school.teachingbooks.net/pronunciations.cgi",
     buttonLabel: "Visit Site ↗",
     external: true,
+  },
+  {
+    name: "Submit a Question",
+    emoji: "✍️",
+    description: "Write your own BOB-style question for a book on the list — a teacher reviews it before it's used.",
+    href: "submit.html",
+    buttonLabel: "Open",
   },
 ];
 

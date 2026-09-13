@@ -11,8 +11,11 @@ drill.html               speed drill (bouncing tiles, 1-5 players, timed)
 wheel.html               Wheel of Fortune style letter-guessing game (1-5 players)
 crossword.html           solo crossword practice (4 rounds, covers all 16 books)
 authors.html             author name pronunciations (text-to-speech, no audio files)
+submit.html              student BOB question submission form
+review.html              teacher approval queue for student submissions
+student-quiz.html        practice mode using approved student questions
 admin.html               question bank manager (type in or import questions)
-landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css / authors.css
+landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css / authors.css / submit.css / review.css / student-quiz.css
 landing.js               home page logic (the lists of games/resources shown as cards)
 gate.js                  site-wide PIN gate + Change PIN control (loaded on every page)
 app.js                   board game logic
@@ -21,6 +24,9 @@ drill.js                 speed drill logic
 wheel.js                 Wheel of Fortune game logic
 crossword.js             crossword game logic (reads precomputed layouts)
 authors.js               author pronunciation logic (Web Speech API)
+submit.js                student question submission logic
+review.js                teacher approval queue logic
+student-quiz.js          approved-student-question practice mode logic
 admin.js                 admin page logic
 data/seed-questions.json 80 starter questions across all 8 categories
 data/books.json          the 16 books (title/author) used by match, drill, wheel, crossword & authors
@@ -28,7 +34,8 @@ data/crossword-rounds.json   precomputed crossword layouts for all 4 rounds (see
 scripts/generate-crosswords.js   one-off generator that produced crossword-rounds.json
 netlify/functions/questions.js   backend — reads/writes questions via Netlify Blobs
 netlify/functions/auth.js         backend — verifies/changes the site PIN via Netlify Blobs
-netlify/functions/lib/pin-store.js   shared helper used by both functions above
+netlify/functions/student-questions.js   backend — student submission queue via Netlify Blobs
+netlify/functions/lib/pin-store.js   shared helper used by auth.js and questions.js
 netlify.toml              Netlify build + routing config
 package.json              declares the @netlify/blobs dependency
 assets/card-back-logo.png the Battle of the Books panther logo (memory-match card backs)
@@ -260,6 +267,38 @@ The home page's Learning Resources section also links out to
 need a TeachingBooks sign-in/subscription to actually play clips (there's
 a sign-in and pricing link on their page), so double-check your school's
 access before relying on it with students.
+
+## Student-Submitted Questions
+
+Three pages work together for this:
+
+- **`submit.html`** — students pick a book, fill in a question stem ("In
+  which book ___?"), and give a page number. The form shows the writing
+  guidelines up front (specific to one page, no character/place/title
+  names, nothing trivial) and a live preview of the finished question,
+  but it can't automatically enforce the judgment-call rules — that's
+  what review is for.
+- **`review.html`** (linked from `admin.html`, not from the main student
+  menu) — every submission starts as **pending** and is invisible
+  everywhere else. Approving one asks you to pick a category and point
+  value, then does two things: marks it approved, and adds it to the
+  live board game question bank via the same `/api/questions` endpoint
+  the admin page uses. Rejecting just marks it rejected (with an option
+  to delete it permanently). Approved and rejected submissions both stay
+  visible below the pending queue for reference.
+- **`student-quiz.html`** — a simple one-at-a-time flashcard practice
+  mode built only from **approved** questions, crediting whoever wrote
+  each one.
+
+Backend: `netlify/functions/student-questions.js`, storing everything in
+its own Netlify Blobs store (`panther-bob-student-questions`), separate
+from the board game's question bank.
+
+**Worth knowing:** the whole site shares one PIN — there's no separate
+teacher-only login. `review.html` isn't linked from the student-facing
+home page menu, but anyone with the site PIN could still navigate to it
+directly by URL. If real teacher-only access matters, that would need a
+second, separate PIN gate just for admin/review pages — not built yet.
 
 ## Adding questions later
 

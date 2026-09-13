@@ -14,5 +14,11 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/student-questions"
+  to = "/.netlify/functions/student-questions"
+  status = 200
+  force = true
+
 [functions]
   node_bundler = "esbuild"

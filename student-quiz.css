@@ -1,0 +1,45 @@
+.sq-progress {
+  text-align: center;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.sq-card {
+  background: var(--navy);
+  color: white;
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.sq-question {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.sq-answer-block {
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 16px;
+}
+.sq-answer-label {
+  color: var(--gold);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.sq-answer {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.sq-credit {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--gold-soft);
+}
+
+.sq-controls {
+  justify-content: center;
+}

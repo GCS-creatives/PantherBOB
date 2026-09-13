@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Student Questions — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="student-quiz.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Student Questions</h1>
+      <p class="subtitle">Practice with questions written by your classmates</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="submit.html" class="btn btn-ghost">Submit a Question</a>
+    </nav>
+  </header>
+
+  <main id="student-quiz-app">
+    <section class="panel">
+
+      <div id="sq-empty" class="hidden">
+        <h2>No approved questions yet</h2>
+        <p class="hint">Once a teacher approves some student-submitted questions, they'll show up here for practice.</p>
+      </div>
+
+      <div id="sq-quiz-body" class="hidden">
+        <p class="sq-progress" id="sq-progress"></p>
+
+        <div class="sq-card">
+          <div class="sq-question" id="sq-question"></div>
+
+          <div id="sq-answer-block" class="sq-answer-block hidden">
+            <div class="sq-answer-label">Answer</div>
+            <div class="sq-answer" id="sq-answer"></div>
+            <div class="sq-credit" id="sq-credit"></div>
+          </div>
+        </div>
+
+        <div class="board-buttons sq-controls">
+          <button id="sq-reveal-btn" class="btn btn-primary">Show Answer</button>
+          <button id="sq-next-btn" class="btn btn-secondary">Next Question</button>
+          <button id="sq-shuffle-btn" class="btn btn-ghost">Shuffle</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="student-quiz.js"></script>
+</body>
+</html>
