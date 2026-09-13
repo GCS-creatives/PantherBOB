@@ -7,6 +7,7 @@
 //                    -> { success: true } or 400/401 with { error }
 
 const { getPin, setPin, DEFAULT_PIN } = require("./lib/pin-store");
+const { connectLambda } = require("@netlify/blobs");
 
 function corsHeaders() {
   return {
@@ -18,6 +19,8 @@ function corsHeaders() {
 }
 
 exports.handler = async (event) => {
+  connectLambda(event); // required so getStore() can find Netlify's Blobs context
+
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: corsHeaders(), body: "" };
   }

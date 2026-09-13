@@ -12,7 +12,7 @@
 //                                     array of question objects; appends them
 //   DELETE /api/questions          -> body: { "id": "<question id>" }; removes one
 
-const { getStore } = require("@netlify/blobs");
+const { getStore, connectLambda } = require("@netlify/blobs");
 const seedQuestions = require("../../data/seed-questions.json");
 
 const KEY = "bank";
@@ -65,6 +65,8 @@ function validateQuestion(q) {
 }
 
 exports.handler = async (event) => {
+  connectLambda(event); // required so getStore() can find Netlify's Blobs context
+
   if (event.httpMethod === "OPTIONS") {
     return { statusCode: 204, headers: corsHeaders(), body: "" };
   }
