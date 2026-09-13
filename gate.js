@@ -92,17 +92,16 @@ async function fetchIsDefaultPin() {
 }
 
 async function verifyPin(pin) {
-  try {
-    const res = await fetch("/api/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "verify", pin }),
-    });
-    const data = await res.json();
-    return !!data.valid;
-  } catch (e) {
-    return false;
+  const res = await fetch("/api/auth", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ action: "verify", pin }),
+  });
+  if (!res.ok) {
+    throw new Error(`Server error (status ${res.status}) — the PIN couldn't be checked.`);
   }
+  const data = await res.json();
+  return !!data.valid;
 }
 
 async function changePin(currentPin, newPin) {
@@ -146,14 +145,21 @@ async function changePin(currentPin, newPin) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     errorEl.classList.add("hidden");
-    const ok = await verifyPin(input.value.trim());
-    if (ok) {
-      unlock();
-    } else {
-      errorEl.textContent = "Incorrect PIN. Try again.";
+    try {
+      const ok = await verifyPin(input.value.trim());
+      if (ok) {
+        unlock();
+      } else {
+        errorEl.textContent = "Incorrect PIN. Try again.";
+        errorEl.classList.remove("hidden");
+        input.value = "";
+        input.focus();
+      }
+    } catch (err) {
+      errorEl.textContent =
+        "Couldn't reach the site's backend to check the PIN (not \"incorrect\" — the check itself failed). Check the Netlify Functions log for /api/auth, or see the console for details.";
       errorEl.classList.remove("hidden");
-      input.value = "";
-      input.focus();
+      console.error("PIN verification failed:", err);
     }
   });
 
