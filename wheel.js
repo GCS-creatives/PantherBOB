@@ -135,7 +135,7 @@ function buildWheelSegments() {
     const midAngle = i * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
     const label = document.createElement("div");
     label.className = "wheel-segment-label";
-    label.style.transform = `rotate(${midAngle}deg) translate(68px, -6px)`;
+    label.style.transform = `rotate(${midAngle - 90}deg) translate(68px, -6px)`;
     label.textContent = seg.type === "points" ? seg.value : seg.label;
     spinner.appendChild(label);
   });
