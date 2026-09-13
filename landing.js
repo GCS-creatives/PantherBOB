@@ -50,7 +50,7 @@ const GAMES = [
   {
     name: "Straight-Up Battle",
     emoji: "⚔️",
-    description: "Authentic 2-team match format — 2 pts for title, +1 for author, steals worth 2 pts. Host-scored.",
+    description: "Authentic 2-team match: 2 pts title, +1 author, rebounds worth 2 pts, real 20s/10s timers, 6/8/12-question rounds.",
     href: "straightup.html",
   },
 ];
@@ -77,6 +77,14 @@ const RESOURCES = [
     description: "Write your own BOB-style question for a book on the list — a teacher reviews it before it's used.",
     href: "submit.html",
     buttonLabel: "Open",
+  },
+  {
+    name: "NCSLMA Booklist on TeachingBooks",
+    emoji: "📚",
+    description: "The official curated resource hub for all 16 books — descriptions, author interviews, read-alongs, book trailers, and lesson plans. May require a TeachingBooks sign-in.",
+    href: "https://school.teachingbooks.net/tb.cgi?lid=15812",
+    buttonLabel: "Visit Site ↗",
+    external: true,
   },
 ];
 

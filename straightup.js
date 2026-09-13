@@ -1,24 +1,40 @@
 // straightup.js — Straight-Up Battle
 //
-// Authentic 2-team Battle of the Books scoring: the team "up" gets 2
-// points for the correct title, +1 more for the correct author. If they
-// miss, the other team can steal for 2 points (title only, no author
-// bonus on a steal). Which team is "up" alternates strictly every
-// question, regardless of who scored — that's the real format, not
-// "winner stays up".
+// Matches the official State Battle of the Books rules where practical
+// for a host-run, single-device scoring tool:
+//   - 2 pts for the correct title, +1 bonus for the author (only if the
+//     title was already correct) — Rule 6.
+//   - A miss rebounds to the other team for 2 pts, title only, no author
+//     bonus on a rebound — Rule 7.
+//   - 20 seconds to start an answer once a question is up; 10 seconds on
+//     a rebound — Rule 5 / Rule 7. Timers auto-advance if time runs out,
+//     but a host click at any time overrides the timer immediately.
+//   - A round is a fixed number of questions — 6, 8, or 12 depending on
+//     level (Rule 3); which team is "up" alternates strictly every new
+//     question regardless of outcome (Rule 2), and the round ends
+//     automatically once that many questions have been played.
+//   - A tie at the end of a round goes to a 12-question tiebreaker round
+//     with scores reset to zero, repeating until someone wins (Rule 20).
 //
-// Questions are drawn from the combined pool: the live board-game bank
-// (seed + anything added via Manage Questions) plus every teacher-
-// approved student submission. Category/points from that bank aren't
-// used for scoring here (Straight-Up Battle scoring is fixed), but the
-// category is still shown for a little context.
+// What's intentionally NOT modeled: individual team rosters and the
+// specific player-by-player answering order (Rules 1, 5, 7 reference a
+// specific "team member" and rotating them in sequence) — this tool
+// scores team vs. team only. Also not modeled: multi-team round-robin
+// tournament standings (Rule 8) — this is a single 2-team match at a
+// time.
 
-let pool = [];       // shuffled queue of {clue, answerTitle, answerAuthor, category}
+const INITIAL_ANSWER_SECONDS = 20;
+const REBOUND_SECONDS = 10;
+const TIEBREAKER_LENGTH = 12;
+
+let pool = [];
 let poolCursor = 0;
-let teams = [];       // [{ name, score }]
+let teams = [];
 let upTeamIndex = 0;
 let currentQuestion = null;
 let questionsAsked = 0;
+let roundLength = 12;
+let timerInterval = null;
 
 function shuffle(arr) {
   const a = [...arr];
@@ -87,23 +103,30 @@ document.getElementById("su-start-btn").addEventListener("click", async () => {
     { name: nameA, score: 0 },
     { name: nameB, score: 0 },
   ];
+  roundLength = Number(document.getElementById("su-round-length").value) || 12;
   upTeamIndex = Math.random() < 0.5 ? 0 : 1;
   questionsAsked = 0;
 
   setupScreen.classList.add("hidden");
   matchScreen.classList.remove("hidden");
+  await beginRound();
+});
 
+async function beginRound() {
   document.getElementById("su-next-btn").textContent = "Loading questions…";
   document.getElementById("su-next-btn").disabled = true;
   pool = await loadCombinedPool();
   poolCursor = 0;
   document.getElementById("su-next-btn").textContent = "Next Question";
   document.getElementById("su-next-btn").disabled = false;
+  document.getElementById("su-clue-text").textContent = 'Click "Next Question" to draw a clue.';
+  document.getElementById("su-clue-category").textContent = "";
+  resetStages();
 
   renderScoreboard();
   renderUpIndicator();
   renderQuestionCount();
-});
+}
 
 // ---------------------------------------------------------------------
 // Rendering
@@ -125,7 +148,7 @@ function renderUpIndicator() {
 }
 
 function renderQuestionCount() {
-  document.getElementById("su-question-count").textContent = `Question ${questionsAsked}`;
+  document.getElementById("su-question-count").textContent = `Question ${Math.min(questionsAsked, roundLength)} of ${roundLength}`;
 }
 
 function resetStages() {
@@ -133,6 +156,35 @@ function resetStages() {
     document.getElementById(id).classList.add("hidden")
   );
   document.getElementById("su-answer-block").classList.add("hidden");
+  clearTimer();
+}
+
+// ---------------------------------------------------------------------
+// Timers (Rule 5: 20s to start an answer; Rule 7: 10s on a rebound)
+// ---------------------------------------------------------------------
+
+function clearTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+}
+
+function startTimer(seconds, displayElId, onExpire) {
+  clearTimer();
+  let remaining = seconds;
+  const el = document.getElementById(displayElId);
+  const render = () => {
+    el.textContent = `⏱ ${remaining}s`;
+    el.classList.toggle("low-time", remaining <= 5);
+  };
+  render();
+  timerInterval = setInterval(() => {
+    remaining -= 1;
+    render();
+    if (remaining <= 0) {
+      clearTimer();
+      onExpire();
+    }
+  }, 1000);
 }
 
 // ---------------------------------------------------------------------
@@ -150,21 +202,39 @@ document.getElementById("su-next-btn").addEventListener("click", () => {
   document.getElementById("su-stage-title-team").textContent = teams[upTeamIndex].name;
   document.getElementById("su-stage-title").classList.remove("hidden");
   document.getElementById("su-next-btn").disabled = true;
+
+  startTimer(INITIAL_ANSWER_SECONDS, "su-title-timer", () => {
+    // Time expired with no decision — treat as incorrect, move to rebound.
+    onTitleWrong();
+  });
 });
 
 document.getElementById("su-title-correct-btn").addEventListener("click", () => {
+  clearTimer();
+  onTitleCorrect();
+});
+document.getElementById("su-title-wrong-btn").addEventListener("click", () => {
+  clearTimer();
+  onTitleWrong();
+});
+
+function onTitleCorrect() {
   teams[upTeamIndex].score += 2;
   renderScoreboard();
   document.getElementById("su-stage-title").classList.add("hidden");
   document.getElementById("su-stage-author").classList.remove("hidden");
-});
+}
 
-document.getElementById("su-title-wrong-btn").addEventListener("click", () => {
+function onTitleWrong() {
   const otherIndex = upTeamIndex === 0 ? 1 : 0;
   document.getElementById("su-stage-steal-team").textContent = teams[otherIndex].name;
   document.getElementById("su-stage-title").classList.add("hidden");
   document.getElementById("su-stage-steal").classList.remove("hidden");
-});
+
+  startTimer(REBOUND_SECONDS, "su-steal-timer", () => {
+    onStealWrong();
+  });
+}
 
 document.getElementById("su-author-correct-btn").addEventListener("click", () => {
   teams[upTeamIndex].score += 1;
@@ -176,16 +246,26 @@ document.getElementById("su-author-wrong-btn").addEventListener("click", () => {
 });
 
 document.getElementById("su-steal-correct-btn").addEventListener("click", () => {
+  clearTimer();
+  onStealCorrect();
+});
+document.getElementById("su-steal-wrong-btn").addEventListener("click", () => {
+  clearTimer();
+  onStealWrong();
+});
+
+function onStealCorrect() {
   const otherIndex = upTeamIndex === 0 ? 1 : 0;
   teams[otherIndex].score += 2;
   renderScoreboard();
   finishQuestion();
-});
-document.getElementById("su-steal-wrong-btn").addEventListener("click", () => {
+}
+function onStealWrong() {
   finishQuestion();
-});
+}
 
 function finishQuestion() {
+  clearTimer();
   document.getElementById("su-answer-block").classList.remove("hidden");
   ["su-stage-title", "su-stage-author", "su-stage-steal"].forEach((id) =>
     document.getElementById(id).classList.add("hidden")
@@ -193,34 +273,54 @@ function finishQuestion() {
   upTeamIndex = upTeamIndex === 0 ? 1 : 0;
   renderUpIndicator();
   renderScoreboard();
-  document.getElementById("su-next-btn").disabled = false;
+
+  if (questionsAsked >= roundLength) {
+    showResults();
+  } else {
+    document.getElementById("su-next-btn").disabled = false;
+  }
 }
 
 // ---------------------------------------------------------------------
-// Match end
+// Match / round end
 // ---------------------------------------------------------------------
 
 document.getElementById("su-end-btn").addEventListener("click", () => {
-  if (!confirm("End this match now and see the results?")) return;
+  if (!confirm("End this round now and see the results?")) return;
   showResults();
 });
 
 function showResults() {
+  clearTimer();
   matchScreen.classList.add("hidden");
   resultsScreen.classList.remove("hidden");
 
   const [a, b] = teams;
+  const tiebreakerBtn = document.getElementById("su-tiebreaker-btn");
   let headline;
   if (a.score === b.score) {
     headline = `It's a tie! ${a.score} — ${b.score}`;
+    tiebreakerBtn.classList.remove("hidden");
   } else {
     const winner = a.score > b.score ? a : b;
     headline = `${winner.name} wins!`;
+    tiebreakerBtn.classList.add("hidden");
   }
   document.getElementById("su-results-headline").textContent = headline;
   document.getElementById("su-results-detail").textContent =
     `Final score — ${a.name}: ${a.score}, ${b.name}: ${b.score}, over ${questionsAsked} question${questionsAsked === 1 ? "" : "s"}.`;
 }
+
+document.getElementById("su-tiebreaker-btn").addEventListener("click", async () => {
+  // Rule 20: tiebreaker is always 12 questions, scores reset to zero.
+  teams.forEach((t) => (t.score = 0));
+  roundLength = TIEBREAKER_LENGTH;
+  upTeamIndex = Math.random() < 0.5 ? 0 : 1;
+  questionsAsked = 0;
+  resultsScreen.classList.add("hidden");
+  matchScreen.classList.remove("hidden");
+  await beginRound();
+});
 
 document.getElementById("su-rematch-btn").addEventListener("click", async () => {
   teams.forEach((t) => (t.score = 0));
@@ -228,16 +328,7 @@ document.getElementById("su-rematch-btn").addEventListener("click", async () => 
   questionsAsked = 0;
   resultsScreen.classList.add("hidden");
   matchScreen.classList.remove("hidden");
-
-  pool = await loadCombinedPool();
-  poolCursor = 0;
-  document.getElementById("su-clue-text").textContent = 'Click "Next Question" to draw a clue.';
-  document.getElementById("su-clue-category").textContent = "";
-  resetStages();
-  renderScoreboard();
-  renderUpIndicator();
-  renderQuestionCount();
-  document.getElementById("su-next-btn").disabled = false;
+  await beginRound();
 });
 
 document.getElementById("su-new-match-btn").addEventListener("click", () => {

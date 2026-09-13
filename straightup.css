@@ -58,3 +58,25 @@
 }
 .su-stage .hint { margin: 0 0 10px; }
 .su-stage .board-buttons { justify-content: center; }
+
+.su-timer {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.su-timer.low-time {
+  color: var(--red);
+  animation: su-pulse 1s infinite;
+}
+@keyframes su-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.su-rule-note {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+  margin: -4px 0 10px;
+}

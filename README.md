@@ -305,23 +305,51 @@ second, separate PIN gate just for admin/review pages — not built yet.
 ## Straight-Up Battle
 
 `straightup.html` — the authentic 2-team match format, one host controls
-the flow (same device/room, no networking). Setup just asks for both
-team names.
+the flow (same device/room, no networking). Built directly from the
+official State Battle of the Books rules manual, as far as makes sense
+for a host-run digital scoring tool.
 
-Scoring is fixed and matches the real format: the team "up" gets **2
-points** for the correct title, **+1 more** for the correct author. If
-they miss, the other team gets a **steal** attempt — **2 points** for the
-correct title only, no author bonus on a steal. Which team is "up"
-**alternates every question regardless of outcome** — that's the real
-rule; it's not "winner stays up."
+**Scoring (Rule 6 & 7):** the team "up" gets 2 points for the correct
+title, +1 more for the correct author — but only if the title was
+already correct. If they miss, it rebounds to the other team for a
+title-only attempt worth 2 points, no author bonus. Which team is "up"
+alternates every question regardless of outcome (Rule 2) — that's the
+real rule, not "winner stays up." A reminder to ignore "a," "an," and
+"the" at the start of titles when judging (Rule 6) sits right next to
+the scoring buttons.
+
+**Timing (Rule 5 & 7):** a 20-second timer starts the moment a question
+comes up for the team that's up; if it runs out with no decision made,
+it automatically rebounds to the other team, who then get a 10-second
+timer. A host click at any point overrides the timer immediately — the
+countdown is there to keep the pace honest, not to block a call.
+
+**Round length (Rule 3):** choose 6, 8, or 12 questions per round at
+setup (12 is the state/regional standard; 6 and 8 are common at the
+district level). The round ends automatically once that many questions
+have been played — "End Match" is still there if you need to stop early.
+
+**Tiebreaker (Rule 20):** a tied round offers a "Play Tiebreaker Round"
+button — always 12 questions, scores reset to zero, repeatable if it
+ties again.
 
 Questions are drawn from the **combined pool**: everything in the live
 board-game bank (the 80 starters plus anything added via Manage
 Questions) plus every teacher-approved student submission, shuffled
 together so a match won't repeat a question until the whole combined set
 has been used once. Category/points from that bank aren't used for
-scoring here (Straight-Up Battle's scoring is always 2/1/2), but the
-category still shows above each clue for a bit of context.
+scoring here (Straight-Up Battle's scoring is always fixed per the rules
+above), but the category still shows above each clue for a bit of
+context.
+
+**What's deliberately not modeled:** the official rules track individual
+team members answering in a set rotation (Rule 1, 5, 7 — a specific
+named player, then the next player in sequence after a rebound) — this
+tool scores team vs. team only, not roster/player-by-player turn order.
+Also not modeled: the multi-team round-robin tournament structure
+(Rule 8) that regional/state competitions use across many teams at
+once — this is a single 2-team match at a time. Both are addable later
+if you want that level of detail.
 
 "End Match" shows the final score and winner at any point; "Rematch"
 keeps the same two team names and deals a fresh shuffled run through the

@@ -26,11 +26,20 @@
     <!-- ===================== SETUP SCREEN ===================== -->
     <section id="su-setup-screen" class="panel">
       <h2>New Match</h2>
-      <p class="hint">Scored the authentic way: 2 points for the correct title, 1 more for the correct author. If the team up misses, the other team can steal — 2 points for the correct title only.</p>
+      <p class="hint">Scored the authentic way: 2 points for the correct title, 1 more for the correct author. If the team up misses, the other team gets a rebound try — 2 points for the correct title only. Matches the official state rules: 20 seconds to start an answer, 10 seconds on a rebound.</p>
 
       <div class="player-name-inputs">
         <input id="su-team-a-name" type="text" placeholder="Team A name" maxlength="30" />
         <input id="su-team-b-name" type="text" placeholder="Team B name" maxlength="30" />
+      </div>
+
+      <div class="player-count-row">
+        <label for="su-round-length">Questions per round</label>
+        <select id="su-round-length">
+          <option value="6">6 (district)</option>
+          <option value="8">8 (district)</option>
+          <option value="12" selected>12 (state/regional)</option>
+        </select>
       </div>
 
       <button id="su-start-btn" class="btn btn-primary btn-large">Start Match</button>
@@ -55,7 +64,9 @@
 
       <!-- Stage 1: did the "up" team get the title right? -->
       <div id="su-stage-title" class="su-stage hidden">
+        <div class="su-timer" id="su-title-timer"></div>
         <p class="hint">Did <strong id="su-stage-title-team"></strong> get the title correct?</p>
+        <p class="su-rule-note">Remember: ignore "a," "an," and "the" at the start of the title when judging.</p>
         <div class="board-buttons">
           <button id="su-title-correct-btn" class="btn btn-green">Correct Title (+2)</button>
           <button id="su-title-wrong-btn" class="btn btn-red">Incorrect / No Answer</button>
@@ -71,12 +82,13 @@
         </div>
       </div>
 
-      <!-- Stage 3: steal opportunity -->
+      <!-- Stage 3: rebound / steal opportunity -->
       <div id="su-stage-steal" class="su-stage hidden">
-        <p class="hint">Can <strong id="su-stage-steal-team"></strong> steal with the correct title?</p>
+        <div class="su-timer" id="su-steal-timer"></div>
+        <p class="hint">Rebound: can <strong id="su-stage-steal-team"></strong> answer with the correct title?</p>
         <div class="board-buttons">
-          <button id="su-steal-correct-btn" class="btn btn-green">Steal! Correct Title (+2)</button>
-          <button id="su-steal-wrong-btn" class="btn btn-secondary">No Steal</button>
+          <button id="su-steal-correct-btn" class="btn btn-green">Rebound! Correct Title (+2)</button>
+          <button id="su-steal-wrong-btn" class="btn btn-secondary">No Rebound</button>
         </div>
       </div>
 
@@ -94,6 +106,7 @@
     <section id="su-results-screen" class="panel hidden">
       <h2 id="su-results-headline"></h2>
       <p class="hint" id="su-results-detail"></p>
+      <button id="su-tiebreaker-btn" class="btn btn-primary btn-large hidden">Play Tiebreaker Round (12 questions, score resets to 0)</button>
       <button id="su-rematch-btn" class="btn btn-primary btn-large">Rematch (same teams, new questions)</button>
       <button id="su-new-match-btn" class="btn btn-ghost">New Match Setup</button>
     </section>
