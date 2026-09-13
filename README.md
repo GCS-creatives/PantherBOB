@@ -183,13 +183,25 @@ the word.
 
 ## Wheel of Fortune
 
-`wheel.html` — 1–5 players take turns. Consonants are free to guess (a
-correct guess reveals every occurrence and the same player goes again; a
-wrong guess passes the turn). Vowels cost 25 points to reveal — that cost
-is deducted whether the vowel turns out to be in the title or not, but
-buying one never ends your turn either way. Anyone can attempt to solve
-the full title at any time; a correct solve ends the round with a +50
-bonus, a wrong one passes the turn. Puzzles are picked one at a time from
+`wheel.html` — 1–5 players take turns. **There's no author clue** —
+showing it would let anyone who already knows the author/title pairing
+solve instantly without guessing a single letter.
+
+Each consonant guess requires a wheel spin first: spin, land on a point
+value (or BANKRUPT — score resets to 0 and the turn ends — or LOSE A
+TURN), then guess one consonant at that value. A correct guess pays
+(value × how many times the letter appears) and the same player keeps
+going, but must spin again before their next consonant. A wrong guess
+passes the turn. Vowels are bought for a flat 25 points any time during a
+turn — no spin needed, and buying one never ends your turn either way,
+win or miss. Anyone can attempt to solve the full title at any time; a
+correct solve ends the round with a +50 bonus, a wrong one passes the
+turn just like a bad letter guess.
+
+The wheel itself is a real spinning wheel (CSS conic-gradient + a
+rotation animation that lands the pointer precisely on a random wedge),
+not a random-number popup — 12 wedges: point values from 300–900, one
+BANKRUPT, one LOSE A TURN. Puzzles are picked one at a time from
 `data/books.json` with the same no-repeat-until-exhausted rotation used
 elsewhere. "New Puzzle" keeps scores; "New Game" resets everything.
 

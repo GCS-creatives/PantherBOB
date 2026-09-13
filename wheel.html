@@ -13,7 +13,7 @@
   <header class="site-header">
     <div class="header-inner">
       <h1 class="logo">🐾 Panther Bob Wheel</h1>
-      <p class="subtitle">Guess the Title · Author is the Clue</p>
+      <p class="subtitle">Spin the Wheel · Guess the Title</p>
     </div>
     <nav class="header-nav">
       <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
@@ -26,7 +26,7 @@
     <!-- ===================== SETUP SCREEN ===================== -->
     <section id="wheel-setup-screen" class="panel">
       <h2>New Game</h2>
-      <p class="hint">Guess consonants for free. Vowels cost points to reveal. Solve the title any time — but a wrong guess passes your turn.</p>
+      <p class="hint">Spin the wheel to set the value, then guess a consonant. Vowels cost points to reveal. Solve the title any time — but a wrong guess passes your turn.</p>
 
       <div class="player-count-row">
         <label for="wheel-player-count">Number of players</label>
@@ -51,13 +51,18 @@
 
       <div class="wheel-turn-indicator" id="wheel-turn-indicator"></div>
 
-      <div class="wheel-author-clue">
-        Author: <strong id="wheel-author-clue"></strong>
-      </div>
-
       <div id="wheel-puzzle" class="wheel-puzzle"></div>
 
       <p id="wheel-message" class="wheel-message"></p>
+
+      <div class="wheel-spin-area">
+        <div class="wheel-spinner-wrap">
+          <div class="wheel-pointer">▼</div>
+          <div id="wheel-spinner" class="wheel-spinner"></div>
+        </div>
+        <button id="wheel-spin-btn" class="btn btn-primary btn-large">Spin the Wheel</button>
+        <div id="wheel-current-value" class="wheel-current-value"></div>
+      </div>
 
       <div class="wheel-letter-grid" id="wheel-letter-grid"></div>
 

@@ -32,7 +32,7 @@ const GAMES = [
   {
     name: "Wheel of Fortune",
     emoji: "🎡",
-    description: "Guess letters to fill in the title — author is the clue. Free consonants, vowels cost points. 1–5 players.",
+    description: "Spin the wheel, then guess letters to fill in the title. No author clue — just the puzzle. 1–5 players.",
     href: "wheel.html",
   },
   {

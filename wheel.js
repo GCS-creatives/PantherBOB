@@ -1,17 +1,39 @@
 // wheel.js — Panther Bob Wheel
 //
-// Classic rules: consonants are free to guess; a correct guess reveals
-// every occurrence and the same player goes again; a wrong guess passes
-// the turn. Vowels cost points to reveal (deducted whether or not the
-// vowel turns out to be in the title) but don't end the turn either way.
-// Solving correctly ends the round with a bonus; solving incorrectly
-// passes the turn, same as a wrong letter.
+// No author clue — showing the author would let anyone who already knows
+// the author/title pairing solve instantly without guessing any letters.
+//
+// Turn flow: spin the wheel to set a point value, then guess ONE
+// consonant at that value (correct = value x occurrences, same player
+// keeps going but must spin again for the next consonant; wrong = turn
+// passes). Vowels are bought with a flat point cost any time during a
+// turn, independent of the wheel. Landing on BANKRUPT zeroes the current
+// player's score and ends their turn; LOSE A TURN just ends it. Solving
+// the title correctly (any time) ends the round with a bonus; solving
+// incorrectly passes the turn, same as a wrong letter.
 
 const VOWELS = ["A", "E", "I", "O", "U"];
-const CONSONANT_POINTS_PER_LETTER = 10;
 const VOWEL_COST = 25;
 const SOLVE_BONUS = 50;
 const WHEEL_USED_KEY = "pbq_wheel_used_titles_v1";
+
+// 12 wedges, 30 degrees each. Mostly point values, one BANKRUPT, one
+// LOSE A TURN — mirrors the real show's mix without needing 24 wedges.
+const WHEEL_SEGMENTS = [
+  { type: "points", value: 500, color: "#0a1172" },
+  { type: "points", value: 300, color: "#f5c518" },
+  { type: "points", value: 700, color: "#1f9d55" },
+  { type: "points", value: 400, color: "#0a1172" },
+  { type: "bankrupt", label: "BANKRUPT", color: "#1c1c1c" },
+  { type: "points", value: 600, color: "#f5c518" },
+  { type: "points", value: 900, color: "#d64545" },
+  { type: "points", value: 500, color: "#0a1172" },
+  { type: "loseturn", label: "LOSE A TURN", color: "#6a6f9e" },
+  { type: "points", value: 800, color: "#f5c518" },
+  { type: "points", value: 400, color: "#1f9d55" },
+  { type: "points", value: 650, color: "#0a1172" },
+];
+const SEGMENT_ANGLE = 360 / WHEEL_SEGMENTS.length;
 
 let ALL_BOOKS = [];
 let players = []; // [{ name, score }]
@@ -19,6 +41,9 @@ let currentPlayerIndex = 0;
 let currentBook = null;
 let guessedLetters = new Set();
 let roundOver = false;
+let currentSpinValue = null; // number when a point value is active and awaiting a consonant guess
+let isSpinning = false;
+let wheelTotalRotation = 0; // accumulated, so each spin keeps turning forward
 
 // ---------------------------------------------------------------------
 // Data + rotation
@@ -87,8 +112,91 @@ startBtn.addEventListener("click", () => {
   currentPlayerIndex = 0;
   setupScreen.classList.add("hidden");
   gameScreen.classList.remove("hidden");
+  buildWheelSegments();
   startPuzzle();
 });
+
+// ---------------------------------------------------------------------
+// Wheel
+// ---------------------------------------------------------------------
+
+function buildWheelSegments() {
+  const spinner = document.getElementById("wheel-spinner");
+
+  const gradientStops = WHEEL_SEGMENTS.map((seg, i) => {
+    const start = i * SEGMENT_ANGLE;
+    const end = start + SEGMENT_ANGLE;
+    return `${seg.color} ${start}deg ${end}deg`;
+  }).join(", ");
+  spinner.style.background = `conic-gradient(${gradientStops})`;
+
+  spinner.querySelectorAll(".wheel-segment-label").forEach((el) => el.remove());
+  WHEEL_SEGMENTS.forEach((seg, i) => {
+    const midAngle = i * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
+    const label = document.createElement("div");
+    label.className = "wheel-segment-label";
+    label.style.transform = `rotate(${midAngle}deg) translate(68px, -6px)`;
+    label.textContent = seg.type === "points" ? seg.value : seg.label;
+    spinner.appendChild(label);
+  });
+}
+
+function spinWheel(onDone) {
+  isSpinning = true;
+  document.getElementById("wheel-spin-btn").disabled = true;
+
+  const targetIndex = Math.floor(Math.random() * WHEEL_SEGMENTS.length);
+  const segMid = targetIndex * SEGMENT_ANGLE + SEGMENT_ANGLE / 2;
+  // Small random jitter within the segment so it doesn't always land dead-center.
+  const jitter = (Math.random() - 0.5) * (SEGMENT_ANGLE * 0.6);
+  const extraSpins = 5 * 360;
+  const targetWithinTurn = (360 - (segMid + jitter) + 360) % 360;
+
+  wheelTotalRotation += extraSpins + ((targetWithinTurn - (wheelTotalRotation % 360)) + 360) % 360;
+
+  const spinner = document.getElementById("wheel-spinner");
+  spinner.style.transform = `rotate(${wheelTotalRotation}deg)`;
+
+  const handleEnd = () => {
+    spinner.removeEventListener("transitionend", handleEnd);
+    isSpinning = false;
+    onDone(WHEEL_SEGMENTS[targetIndex]);
+  };
+  spinner.addEventListener("transitionend", handleEnd);
+}
+
+document.getElementById("wheel-spin-btn").addEventListener("click", () => {
+  if (roundOver || isSpinning || currentSpinValue !== null) return;
+  document.getElementById("wheel-message").textContent = "";
+  spinWheel((segment) => {
+    if (segment.type === "bankrupt") {
+      players[currentPlayerIndex].score = 0;
+      document.getElementById("wheel-message").textContent =
+        `${players[currentPlayerIndex].name} hit BANKRUPT! Score reset to 0. Turn passes.`;
+      renderScoreboard();
+      passTurn();
+      updateSpinControls();
+    } else if (segment.type === "loseturn") {
+      document.getElementById("wheel-message").textContent =
+        `${players[currentPlayerIndex].name} hit LOSE A TURN.`;
+      passTurn();
+      updateSpinControls();
+    } else {
+      currentSpinValue = segment.value;
+      document.getElementById("wheel-message").textContent =
+        `${players[currentPlayerIndex].name} spun ${segment.value} — pick a consonant!`;
+      updateSpinControls();
+      renderLetterGrid();
+    }
+  });
+});
+
+function updateSpinControls() {
+  const spinBtn = document.getElementById("wheel-spin-btn");
+  const valueEl = document.getElementById("wheel-current-value");
+  spinBtn.disabled = roundOver || isSpinning || currentSpinValue !== null;
+  valueEl.textContent = currentSpinValue !== null ? `Current value: ${currentSpinValue}` : "";
+}
 
 // ---------------------------------------------------------------------
 // Puzzle lifecycle
@@ -98,14 +206,15 @@ function startPuzzle() {
   currentBook = pickNextBook();
   guessedLetters = new Set();
   roundOver = false;
+  currentSpinValue = null;
   document.getElementById("wheel-message").textContent = "";
   document.getElementById("wheel-solve-input").value = "";
-  document.getElementById("wheel-author-clue").textContent = currentBook.author;
 
   renderScoreboard();
   renderTurnIndicator();
   renderPuzzle();
   renderLetterGrid();
+  updateSpinControls();
 }
 
 function renderScoreboard() {
@@ -156,8 +265,11 @@ function renderLetterGrid() {
     const btn = document.createElement("button");
     const isVowel = VOWELS.includes(letter);
     btn.className = "wheel-letter-btn" + (isVowel ? " vowel" : "");
-    btn.textContent = isVowel ? `${letter}` : letter;
-    btn.disabled = guessedLetters.has(letter) || roundOver;
+    btn.textContent = letter;
+    const alreadyGuessed = guessedLetters.has(letter);
+    // Consonants need an active spin value; vowels just need points + turn active.
+    const blocked = roundOver || alreadyGuessed || (!isVowel && currentSpinValue === null);
+    btn.disabled = blocked;
     btn.addEventListener("click", () => onLetterClick(letter, isVowel));
     grid.appendChild(btn);
   });
@@ -173,6 +285,7 @@ function countLetterOccurrences(letter) {
 
 function onLetterClick(letter, isVowel) {
   if (roundOver || guessedLetters.has(letter)) return;
+  if (!isVowel && currentSpinValue === null) return;
   const messageEl = document.getElementById("wheel-message");
 
   if (isVowel) {
@@ -196,19 +309,23 @@ function onLetterClick(letter, isVowel) {
 
   guessedLetters.add(letter);
   const count = countLetterOccurrences(letter);
+  const spinValueUsed = currentSpinValue;
+  currentSpinValue = null;
 
   if (count > 0) {
-    const points = count * CONSONANT_POINTS_PER_LETTER;
+    const points = count * spinValueUsed;
     players[currentPlayerIndex].score += points;
-    messageEl.textContent = `Correct! ${letter} appears ${count} time${count > 1 ? "s" : ""}. +${points} points.`;
+    messageEl.textContent = `Correct! ${letter} appears ${count} time${count > 1 ? "s" : ""} at ${spinValueUsed} each. +${points} points. Spin again!`;
     renderScoreboard();
     renderPuzzle();
     renderLetterGrid();
+    updateSpinControls();
     checkForAutoSolve();
   } else {
     messageEl.textContent = `No ${letter} in the title. Turn passes.`;
     passTurn();
     renderLetterGrid();
+    updateSpinControls();
   }
 }
 
@@ -223,6 +340,7 @@ function checkForAutoSolve() {
 }
 
 function passTurn() {
+  currentSpinValue = null;
   currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   renderScoreboard();
   renderTurnIndicator();
@@ -255,6 +373,8 @@ function attemptSolve() {
     messageEl.textContent = "Not quite — turn passes.";
     input.value = "";
     passTurn();
+    updateSpinControls();
+    renderLetterGrid();
   }
 }
 
@@ -264,6 +384,7 @@ function attemptSolve() {
 
 function endRound(solverIndex, awardBonus) {
   roundOver = true;
+  currentSpinValue = null;
   if (awardBonus) {
     players[solverIndex].score += SOLVE_BONUS;
   }
@@ -272,6 +393,7 @@ function endRound(solverIndex, awardBonus) {
   renderTurnIndicator();
   renderPuzzle();
   renderLetterGrid();
+  updateSpinControls();
   const messageEl = document.getElementById("wheel-message");
   messageEl.textContent += ` "${currentBook.title}" by ${currentBook.author}. +${SOLVE_BONUS} bonus to ${players[solverIndex].name}.`;
 }
