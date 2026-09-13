@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panther Bob Crossword — NC Battle of the Books</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="crossword.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Panther Bob Crossword</h1>
+      <p class="subtitle">Solo Practice · Author is the clue, book title is the answer</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="crossword-app">
+    <section class="panel">
+      <div class="crossword-top-bar">
+        <span id="crossword-round-label" class="round-label">Round 1 of 4</span>
+        <div class="board-buttons">
+          <button id="crossword-check-btn" class="btn btn-secondary">Check My Answers</button>
+          <button id="crossword-reveal-btn" class="btn btn-ghost">Reveal Solution</button>
+          <button id="crossword-next-btn" class="btn btn-primary">Next Round</button>
+        </div>
+      </div>
+
+      <p id="crossword-check-result" class="hint"></p>
+
+      <div class="crossword-layout">
+        <div class="crossword-grid-wrap">
+          <div id="crossword-grid" class="crossword-grid"></div>
+        </div>
+        <div class="crossword-clues">
+          <h3>Author Clues</h3>
+          <ul id="crossword-clue-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="crossword-complete-screen" class="panel hidden">
+      <h2>🎉 All 16 books practiced!</h2>
+      <p class="hint">You've been through all four rounds — every title/author pair on the list.</p>
+      <button id="crossword-restart-btn" class="btn btn-primary btn-large">Start Over from Round 1</button>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="crossword.js"></script>
+</body>
+</html>

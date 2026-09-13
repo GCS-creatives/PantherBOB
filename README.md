@@ -8,19 +8,31 @@ index.html               the home page — pick which game to play
 board.html               the Jeopardy-style board game (player setup, scoreboard, board)
 match.html               memory-match game (two players, timed)
 drill.html               speed drill (bouncing tiles, 1-5 players, timed)
+wheel.html               Wheel of Fortune style letter-guessing game (1-5 players)
+crossword.html           solo crossword practice (4 rounds, covers all 16 books)
+authors.html             author name pronunciations (text-to-speech, no audio files)
 admin.html               question bank manager (type in or import questions)
-landing.css / style.css / admin.css / match.css / drill.css
-landing.js               home page logic (the list of games shown as cards)
+landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css / authors.css
+landing.js               home page logic (the lists of games/resources shown as cards)
+gate.js                  site-wide PIN gate + Change PIN control (loaded on every page)
 app.js                   board game logic
 match.js                 memory-match game logic
 drill.js                 speed drill logic
+wheel.js                 Wheel of Fortune game logic
+crossword.js             crossword game logic (reads precomputed layouts)
+authors.js               author pronunciation logic (Web Speech API)
 admin.js                 admin page logic
 data/seed-questions.json 80 starter questions across all 8 categories
-data/books.json          the 16 books (title/author) used by the match & drill games
-netlify/functions/questions.js   the backend — reads/writes questions via Netlify Blobs
+data/books.json          the 16 books (title/author) used by match, drill, wheel, crossword & authors
+data/crossword-rounds.json   precomputed crossword layouts for all 4 rounds (see scripts/)
+scripts/generate-crosswords.js   one-off generator that produced crossword-rounds.json
+netlify/functions/questions.js   backend — reads/writes questions via Netlify Blobs
+netlify/functions/auth.js         backend — verifies/changes the site PIN via Netlify Blobs
+netlify/functions/lib/pin-store.js   shared helper used by both functions above
 netlify.toml              Netlify build + routing config
 package.json              declares the @netlify/blobs dependency
 assets/card-back-logo.png the Battle of the Books panther logo (memory-match card backs)
+assets/match-background.jpg  background art for the memory-match page
 ```
 
 ## The home page
@@ -140,6 +152,93 @@ gone, a leaderboard ranks players by pairs found first, then — among
 anyone who fully cleared the board — by who did it fastest.
 
 Like the memory-match game, this also reads straight from `data/books.json`.
+
+## PIN gate
+
+The whole site sits behind a PIN, checked in `netlify/functions/auth.js`
+and stored in Netlify Blobs (not in the code, so changing it doesn't
+require a redeploy). **The starting PIN is `000000`.**
+
+- Every page loads a full-screen lock overlay (`gate.js`) until the right
+  PIN is entered. Unlocking is remembered for that browser **tab's
+  session only** — close the tab or browser and it locks again next time.
+- A **"🔒 Change PIN"** link sits at the bottom of every page. It asks for
+  the current PIN plus a new one (4–10 digits) and saves it for everyone,
+  site-wide — there's only one PIN, not separate logins per person.
+- While the PIN is still the default, the lock screen shows a small
+  reminder to change it.
+
+**Worth knowing:** this gate protects the *pages* — nobody gets to look at
+or play anything without the PIN. It does **not** currently protect the
+`/api/questions` endpoint itself from someone who calls it directly
+(bypassing the page entirely, e.g. with `curl`) — GET is harmless (it only
+returns clue text that's visible in the games anyway), but a technically
+determined visitor could still POST or DELETE questions straight against
+the API without ever seeing the lock screen. For a school-use tool where
+the real goal is "keep casual visitors out," this is a reasonable
+trade-off. If you want the question bank's writes locked down too — so
+even a direct API call needs the PIN — that's a follow-up I can add
+(the same PIN would need to travel with each admin request); just say
+the word.
+
+## Wheel of Fortune
+
+`wheel.html` — 1–5 players take turns. Consonants are free to guess (a
+correct guess reveals every occurrence and the same player goes again; a
+wrong guess passes the turn). Vowels cost 25 points to reveal — that cost
+is deducted whether the vowel turns out to be in the title or not, but
+buying one never ends your turn either way. Anyone can attempt to solve
+the full title at any time; a correct solve ends the round with a +50
+bonus, a wrong one passes the turn. Puzzles are picked one at a time from
+`data/books.json` with the same no-repeat-until-exhausted rotation used
+elsewhere. "New Puzzle" keeps scores; "New Game" resets everything.
+
+## Crossword
+
+`crossword.html` is solo practice. All 16 books are split into 4 fixed
+rounds of 4 — the author is the clue, the book title (letters only, no
+spaces/punctuation) is the answer. Layouts are **precomputed**, not
+generated live in the browser: `scripts/generate-crosswords.js` runs a
+small placement algorithm that tries to interlock each round's 4 titles
+on shared letters, falling back to placing a title disconnected nearby if
+no valid crossing exists. Its output is `data/crossword-rounds.json`,
+which `crossword.js` just reads and renders. As it turned out, every one
+of the 4 rounds found a fully interlocking layout — no disconnected
+placements were needed for this particular book list, though the
+fallback logic is still there in case a future list needs it.
+
+If you ever change which 16 books are on the list, re-run the generator:
+
+```bash
+node scripts/generate-crosswords.js
+```
+
+This overwrites `data/crossword-rounds.json` with new layouts and prints
+an ASCII preview of each round so you can sanity-check them before
+committing.
+
+Click "Check My Answers" to see how many letters are right so far (it
+doesn't reveal what the correct ones are), or "Reveal Solution" to fill
+in the whole round. "Next Round" advances through all 4; after the 4th,
+a completion screen confirms all 16 books have been practiced and offers
+to start over.
+
+## Author Pronunciations
+
+`authors.html` lists all 16 authors with a 🔊 button next to each name.
+This uses the browser's **built-in text-to-speech** (the Web Speech API)
+— there are no audio files to host or generate, and it works offline once
+the page has loaded. It won't always get unusual names exactly right, but
+it's free and instant. A "Play All" button reads through the whole list
+in order. If a browser doesn't support speech synthesis, the page shows a
+plain warning instead of silently doing nothing.
+
+The home page's Learning Resources section also links out to
+[TeachingBooks' Author & Illustrator Pronunciation Guide](https://school.teachingbooks.net/pronunciations.cgi)
+— a professionally recorded pronunciation library. It looked like it may
+need a TeachingBooks sign-in/subscription to actually play clips (there's
+a sign-in and pricing link on their page), so double-check your school's
+access before relying on it with students.
 
 ## Adding questions later
 

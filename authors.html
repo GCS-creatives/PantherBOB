@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Author Pronunciations — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="authors.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Say the Author's Name</h1>
+      <p class="subtitle">Tap 🔊 to hear each author's name read aloud</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+    </nav>
+  </header>
+
+  <main id="authors-app">
+    <section class="panel">
+      <div class="authors-top-bar">
+        <p class="hint">Uses your browser's built-in text-to-speech — no downloads, works offline. Pronunciation may not always be perfect, especially for less common names.</p>
+        <button id="play-all-btn" class="btn btn-primary">🔊 Play All</button>
+      </div>
+      <p id="authors-support-warning" class="status-msg error hidden">
+        Your browser doesn't support text-to-speech, so playback won't work here — try a different browser.
+      </p>
+      <div id="authors-list" class="authors-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="authors.js"></script>
+</body>
+</html>

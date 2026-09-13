@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panther Bob Wheel — NC Battle of the Books</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="wheel.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Panther Bob Wheel</h1>
+      <p class="subtitle">Guess the Title · Author is the Clue</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="wheel-app">
+
+    <!-- ===================== SETUP SCREEN ===================== -->
+    <section id="wheel-setup-screen" class="panel">
+      <h2>New Game</h2>
+      <p class="hint">Guess consonants for free. Vowels cost points to reveal. Solve the title any time — but a wrong guess passes your turn.</p>
+
+      <div class="player-count-row">
+        <label for="wheel-player-count">Number of players</label>
+        <select id="wheel-player-count">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <div id="wheel-player-name-inputs" class="player-name-inputs"></div>
+
+      <button id="wheel-start-btn" class="btn btn-primary btn-large">Start Game</button>
+    </section>
+
+    <!-- ===================== GAME SCREEN ===================== -->
+    <section id="wheel-game-screen" class="panel hidden">
+
+      <div class="scoreboard" id="wheel-scoreboard"></div>
+
+      <div class="wheel-turn-indicator" id="wheel-turn-indicator"></div>
+
+      <div class="wheel-author-clue">
+        Author: <strong id="wheel-author-clue"></strong>
+      </div>
+
+      <div id="wheel-puzzle" class="wheel-puzzle"></div>
+
+      <p id="wheel-message" class="wheel-message"></p>
+
+      <div class="wheel-letter-grid" id="wheel-letter-grid"></div>
+
+      <div class="wheel-solve-row">
+        <input id="wheel-solve-input" type="text" placeholder="Type the full title to solve" />
+        <button id="wheel-solve-btn" class="btn btn-primary">Solve</button>
+      </div>
+
+      <div class="board-controls">
+        <div class="board-buttons">
+          <button id="wheel-new-puzzle-btn" class="btn btn-secondary">New Puzzle (keep scores)</button>
+          <button id="wheel-new-game-btn" class="btn btn-ghost">New Game</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="wheel.js"></script>
+</body>
+</html>

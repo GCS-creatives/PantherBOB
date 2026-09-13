@@ -304,3 +304,76 @@ main#app {
   color: var(--muted);
   font-size: 0.85rem;
 }
+.footer-link-btn {
+  display: block;
+  margin: 8px auto 0;
+  background: none;
+  border: none;
+  color: var(--muted);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.82rem;
+}
+.footer-link-btn:hover { color: var(--navy); }
+
+/* ---------- PIN gate ---------- */
+.pin-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.pin-gate-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 36px 32px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+}
+.pin-gate-logo { font-size: 2.4rem; margin-bottom: 4px; }
+.pin-gate-card h2 { margin: 4px 0 2px; color: var(--navy); }
+.pin-gate-card #pin-gate-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+.pin-gate-card input {
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 4px;
+}
+.pin-gate-default-notice {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  background: #fff7dd;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.pin-change-card { max-width: 420px; text-align: left; }
+.pin-change-card .modal-category { text-align: center; }
+.pin-change-close { display: block; margin: 12px auto 0; }
+.pin-change-card .form-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+.pin-change-card .form-row label { font-weight: 600; font-size: 0.85rem; color: #d7d9f5; }
+.pin-change-card .form-row input {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+.status-msg {
+  min-height: 1.2em;
+  font-weight: 600;
+}
+.status-msg.success { color: #3ddc84; }
+.status-msg.error { color: #ff9494; }

@@ -1,0 +1,170 @@
+[
+  {
+    "rows": 19,
+    "cols": 30,
+    "entries": [
+      {
+        "clueNumber": 2,
+        "title": "The Fire, the Water, and Maudie McGinn",
+        "author": "Sally J. Pla",
+        "answer": "THEFIRETHEWATERANDMAUDIEMCGINN",
+        "row": 4,
+        "col": 0,
+        "dir": "across"
+      },
+      {
+        "clueNumber": 3,
+        "title": "Agent Most Wanted",
+        "author": "Sonia Purnell",
+        "answer": "AGENTMOSTWANTED",
+        "row": 4,
+        "col": 11,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 1,
+        "title": "Blood in the Water",
+        "author": "Tiffany D. Jackson",
+        "answer": "BLOODINTHEWATER",
+        "row": 0,
+        "col": 17,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 4,
+        "title": "All Thirteen",
+        "author": "Christina Soontornvat",
+        "answer": "ALLTHIRTEEN",
+        "row": 4,
+        "col": 15,
+        "dir": "down"
+      }
+    ]
+  },
+  {
+    "rows": 17,
+    "cols": 28,
+    "entries": [
+      {
+        "clueNumber": 2,
+        "title": "Marcus Vega Doesn't Speak Spanish",
+        "author": "Pablo Cartaya",
+        "answer": "MARCUSVEGADOESNTSPEAKSPANISH",
+        "row": 1,
+        "col": 0,
+        "dir": "across"
+      },
+      {
+        "clueNumber": 3,
+        "title": "The Last Cuentista",
+        "author": "Donna Barba Higuera",
+        "answer": "THELASTCUENTISTA",
+        "row": 1,
+        "col": 15,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 4,
+        "title": "Island of Spies",
+        "author": "Sheila Turnage",
+        "answer": "ISLANDOFSPIES",
+        "row": 1,
+        "col": 25,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 1,
+        "title": "Long Lost",
+        "author": "Jacqueline West",
+        "answer": "LONGLOST",
+        "row": 0,
+        "col": 11,
+        "dir": "down"
+      }
+    ]
+  },
+  {
+    "rows": 17,
+    "cols": 24,
+    "entries": [
+      {
+        "clueNumber": 1,
+        "title": "The Secret Battle of Evan Pao",
+        "author": "Wendy Wan-Long Shang",
+        "answer": "THESECRETBATTLEOFEVANPAO",
+        "row": 0,
+        "col": 0,
+        "dir": "across"
+      },
+      {
+        "clueNumber": 3,
+        "title": "Other Words for Home",
+        "author": "Jasmine Warga",
+        "answer": "OTHERWORDSFORHOME",
+        "row": 0,
+        "col": 15,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 2,
+        "title": "Restart",
+        "author": "Gordon Korman",
+        "answer": "RESTART",
+        "row": 0,
+        "col": 6,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 4,
+        "title": "Nyxia",
+        "author": "Scott Reintgen",
+        "answer": "NYXIA",
+        "row": 0,
+        "col": 20,
+        "dir": "down"
+      }
+    ]
+  },
+  {
+    "rows": 14,
+    "cols": 33,
+    "entries": [
+      {
+        "clueNumber": 2,
+        "title": "Tristan Strong Punches a Hole in the Sky",
+        "author": "Kwame Mbalia",
+        "answer": "TRISTANSTRONGPUNCHESAHOLEINTHESKY",
+        "row": 1,
+        "col": 0,
+        "dir": "across"
+      },
+      {
+        "clueNumber": 1,
+        "title": "When We Flew Away",
+        "author": "Alice Hoffman",
+        "answer": "WHENWEFLEWAWAY",
+        "row": 0,
+        "col": 17,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 4,
+        "title": "Shark Teeth",
+        "author": "Sherri Winston",
+        "answer": "SHARKTEETH",
+        "row": 1,
+        "col": 3,
+        "dir": "down"
+      },
+      {
+        "clueNumber": 3,
+        "title": "Two Tribes",
+        "author": "Emily Bowen Cohen",
+        "answer": "TWOTRIBES",
+        "row": 1,
+        "col": 0,
+        "dir": "down"
+      }
+    ]
+  }
+]
