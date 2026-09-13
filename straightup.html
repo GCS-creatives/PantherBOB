@@ -17,6 +17,7 @@
     </div>
     <nav class="header-nav">
       <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="straightup-online.html" class="btn btn-ghost">🌐 Play Online Instead</a>
       <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
     </nav>
   </header>
@@ -55,6 +56,7 @@
       <div id="su-clue-card" class="su-clue-card">
         <div class="su-clue-category" id="su-clue-category"></div>
         <div class="su-clue-text" id="su-clue-text">Click "Next Question" to draw a clue.</div>
+        <button id="su-speak-btn" class="btn btn-ghost su-speak-btn">🔊 Read Aloud</button>
       </div>
 
       <div id="su-answer-block" class="su-answer-block hidden">
@@ -117,6 +119,7 @@
     <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
   </footer>
 
+  <script src="tts.js"></script>
   <script src="straightup.js"></script>
 </body>
 </html>

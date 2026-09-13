@@ -209,6 +209,10 @@ document.getElementById("su-next-btn").addEventListener("click", () => {
   });
 });
 
+document.getElementById("su-speak-btn").addEventListener("click", () => {
+  if (currentQuestion) speak(currentQuestion.clue);
+});
+
 document.getElementById("su-title-correct-btn").addEventListener("click", () => {
   clearTimer();
   onTitleCorrect();

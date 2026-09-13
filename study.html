@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Student Questions — Panther Bob Games</title>
+<title>Solo Study — Panther Bob Games</title>
 <link rel="stylesheet" href="style.css" />
 <link rel="stylesheet" href="student-quiz.css" />
 </head>
@@ -12,34 +12,36 @@
 
   <header class="site-header">
     <div class="header-inner">
-      <h1 class="logo">🐾 Student Questions</h1>
-      <p class="subtitle">Practice with questions written by your classmates</p>
+      <h1 class="logo">🐾 Solo Study</h1>
+      <p class="subtitle">Flashcard practice through the full question bank</p>
     </div>
     <nav class="header-nav">
       <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
-      <a href="submit.html" class="btn btn-ghost">Submit a Question</a>
     </nav>
   </header>
 
   <main id="student-quiz-app">
     <section class="panel">
+      <div class="authors-top-bar">
+        <p class="hint">Every question in the board game's bank — the 80 starters plus anything added via Manage Questions or approved from students. 🔊 reads the clue aloud.</p>
+      </div>
 
       <div id="sq-empty" class="hidden">
-        <h2>No approved questions yet</h2>
-        <p class="hint">Once a teacher approves some student-submitted questions, they'll show up here for practice.</p>
+        <h2>No questions available yet</h2>
+        <p class="hint">Add some via Manage Questions first.</p>
       </div>
 
       <div id="sq-quiz-body" class="hidden">
         <p class="sq-progress" id="sq-progress"></p>
 
         <div class="sq-card">
+          <div class="sq-category" id="sq-category"></div>
           <div class="sq-question" id="sq-question"></div>
           <button id="sq-speak-btn" class="btn btn-ghost sq-speak-btn">🔊 Read Aloud</button>
 
           <div id="sq-answer-block" class="sq-answer-block hidden">
             <div class="sq-answer-label">Answer</div>
             <div class="sq-answer" id="sq-answer"></div>
-            <div class="sq-credit" id="sq-credit"></div>
           </div>
         </div>
 
@@ -58,6 +60,6 @@
   </footer>
 
   <script src="tts.js"></script>
-  <script src="student-quiz.js"></script>
+  <script src="study.js"></script>
 </body>
 </html>

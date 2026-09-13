@@ -40,6 +40,32 @@
   color: var(--gold-soft);
 }
 
+.sq-category {
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  min-height: 1em;
+}
+.sq-speak-btn {
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  margin-bottom: 14px;
+}
+.sq-speak-btn:hover { background: rgba(255,255,255,0.1); }
+
+.authors-top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.authors-top-bar .hint { margin: 0; flex: 1; min-width: 220px; }
+
 .sq-controls {
   justify-content: center;
 }

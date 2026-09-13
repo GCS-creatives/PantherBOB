@@ -1,0 +1,42 @@
+.suo-choice-buttons { justify-content: center; }
+
+.suo-room-code {
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: var(--navy);
+  background: #f4f5ff;
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  margin: 16px 0;
+}
+
+.suo-code-input {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  margin: 12px 0;
+  padding: 14px;
+  font-size: 1.6rem;
+  letter-spacing: 6px;
+  text-align: center;
+  text-transform: uppercase;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.suo-room-banner {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.suo-host-badge {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.suo-spectator-note {
+  text-align: center;
+  margin-top: 10px;
+}

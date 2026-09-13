@@ -20,5 +20,11 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/api/battle-room"
+  to = "/.netlify/functions/battle-room"
+  status = 200
+  force = true
+
 [functions]
   node_bundler = "esbuild"

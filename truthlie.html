@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Two Truths and a Lie — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="truthlie.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Two Truths and a Lie</h1>
+      <p class="subtitle">Spot the false statement about each book</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+    </nav>
+  </header>
+
+  <main id="tl-app">
+
+    <section id="tl-setup-screen" class="panel">
+      <h2>New Game</h2>
+      <p class="hint">Pick how many players are guessing (host reveals the answer and awards points).</p>
+
+      <div class="player-count-row">
+        <label for="tl-player-count">Number of players</label>
+        <select id="tl-player-count">
+          <option value="1" selected>1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div id="tl-player-name-inputs" class="player-name-inputs"></div>
+
+      <button id="tl-start-btn" class="btn btn-primary btn-large">Start Game</button>
+    </section>
+
+    <section id="tl-game-screen" class="panel hidden">
+
+      <div class="scoreboard" id="tl-scoreboard"></div>
+
+      <div class="tl-book-title" id="tl-book-title"></div>
+
+      <div id="tl-statements" class="tl-statements"></div>
+
+      <div class="board-buttons tl-controls">
+        <button id="tl-reveal-btn" class="btn btn-primary">Reveal the Lie</button>
+        <button id="tl-next-btn" class="btn btn-secondary hidden">Next Book</button>
+      </div>
+
+      <div id="tl-award-block" class="tl-award-block hidden">
+        <p class="hint">Who guessed correctly? (click any that apply)</p>
+        <div id="tl-award-buttons" class="board-buttons"></div>
+      </div>
+
+    </section>
+
+    <section id="tl-complete-screen" class="panel hidden">
+      <h2>🎉 All 16 books done!</h2>
+      <p class="hint" id="tl-final-scores"></p>
+      <button id="tl-restart-btn" class="btn btn-primary btn-large">Play Again</button>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="truthlie.js"></script>
+</body>
+</html>

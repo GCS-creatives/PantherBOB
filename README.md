@@ -14,11 +14,19 @@ authors.html             author name pronunciations (text-to-speech, no audio fi
 submit.html              student BOB question submission form
 review.html              teacher approval queue for student submissions
 student-quiz.html        practice mode using approved student questions
-straightup.html          Straight-Up Battle — authentic 2-team match format, host-scored
+study.html               solo study mode using the full question bank
+mystery.html             Mystery Book (20 Questions)
+bingo.html               Battle Bingo — caller + personal card
+truthlie.html            Two Truths and a Lie
+straightup.html          Straight-Up Battle — authentic 2-team match, same room
+straightup-online.html   Straight-Up Battle — same rules, remote teams via room code
 admin.html               question bank manager (type in or import questions)
-landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css / authors.css / submit.css / review.css / student-quiz.css / straightup.css
+landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css /
+  authors.css / submit.css / review.css / student-quiz.css / straightup.css /
+  straightup-online.css / mystery.css / bingo.css / truthlie.css
 landing.js               home page logic (the lists of games/resources shown as cards)
 gate.js                  site-wide PIN gate + Change PIN control (loaded on every page)
+tts.js                   shared text-to-speech helper (used by several pages' 🔊 buttons)
 app.js                   board game logic
 match.js                 memory-match game logic
 drill.js                 speed drill logic
@@ -28,20 +36,29 @@ authors.js               author pronunciation logic (Web Speech API)
 submit.js                student question submission logic
 review.js                teacher approval queue logic
 student-quiz.js          approved-student-question practice mode logic
-straightup.js            Straight-Up Battle match logic
+study.js                 solo study mode logic (full question bank)
+mystery.js               Mystery Book logic
+bingo.js                 Battle Bingo logic (caller + card)
+truthlie.js              Two Truths and a Lie logic
+straightup.js            Straight-Up Battle match logic (same room)
+straightup-online.js     Straight-Up Battle Online logic (room code, polling sync)
 admin.js                 admin page logic
 data/seed-questions.json 80 starter questions across all 8 categories
-data/books.json          the 16 books (title/author) used by match, drill, wheel, crossword & authors
+data/books.json          the 16 books (title/author) used by most games
 data/crossword-rounds.json   precomputed crossword layouts for all 4 rounds (see scripts/)
+data/two-truths-lie.json     Two Truths and a Lie content, 16 books
 scripts/generate-crosswords.js   one-off generator that produced crossword-rounds.json
-netlify/functions/questions.js   backend — reads/writes questions via Netlify Blobs
-netlify/functions/auth.js         backend — verifies/changes the site PIN via Netlify Blobs
-netlify/functions/student-questions.js   backend — student submission queue via Netlify Blobs
-netlify/functions/lib/pin-store.js   shared helper used by auth.js and questions.js
+scripts/generate-study-guide.py  regenerates the printable PDF study guide
+netlify/functions/questions.js         backend — reads/writes questions via Netlify Blobs
+netlify/functions/auth.js               backend — verifies/changes the site PIN via Netlify Blobs
+netlify/functions/student-questions.js  backend — student submission queue via Netlify Blobs
+netlify/functions/battle-room.js        backend — online Straight-Up Battle room state via Netlify Blobs
+netlify/functions/lib/pin-store.js      shared helper used by auth.js and questions.js
 netlify.toml              Netlify build + routing config
 package.json              declares the @netlify/blobs dependency
 assets/card-back-logo.png the Battle of the Books panther logo (memory-match card backs)
 assets/match-background.jpg  background art for the memory-match page
+assets/panther-bob-study-guide.pdf  printable study guide (see scripts/generate-study-guide.py)
 ```
 
 ## The home page
@@ -354,6 +371,97 @@ if you want that level of detail.
 "End Match" shows the final score and winner at any point; "Rematch"
 keeps the same two team names and deals a fresh shuffled run through the
 question pool.
+
+## Solo Study & Read-Aloud
+
+`study.html` is a flashcard practice mode through the **full board-game
+question bank** (the 80 starters plus anything added via Manage
+Questions or approved from students) — same idea as Student Questions,
+different source. Both, plus the board game and Straight-Up Battle, now
+have a 🔊 "Read Aloud" button that uses the browser's text-to-speech to
+read the current clue — the same approach as Author Pronunciations, now
+shared across pages via one small helper file, `tts.js`.
+
+## Mystery Book (20 Questions)
+
+`mystery.html` — one host picks a secret book (hidden behind a
+blur-to-reveal toggle so it isn't accidentally shown on a shared
+screen) and everyone else asks yes/no questions out loud to narrow it
+down. The host answers verbally based on what they know about the book;
+this tool just tracks the secret and a running count out of 20
+questions, plus a "someone guessed" flow to record a correct guess or
+keep going. No repeat book until all 16 have come up once.
+
+## Battle Bingo
+
+`bingo.html` has two independent halves on one page: a **Caller** that
+draws all 16 books in random order (reads each one aloud too), and a
+**My Card** section anyone can use on their own device to generate a
+random 4×4 card (all 16 books fit exactly, so every card has all of them,
+just shuffled differently) and click squares as they're called. Since
+every card contains every book, the race is about *layout*, not which
+books show up — a line of 4 (row, column, or diagonal) auto-detects and
+triggers a "BINGO!" banner.
+
+## Two Truths and a Lie
+
+`truthlie.html` — three statements about a book, two true and one false,
+1–5 players guessing out loud which is the lie. All 16 sets of
+statements (`data/two-truths-lie.json`) were written from the same
+research used for the board game's clues, so the "lie" in each set is a
+confirmed inversion of a real detail (a changed outcome, a swapped
+character, a wrong setting) rather than an invented fact that happens to
+sound plausible. Goes through all 16 books once per game in random
+order; the host reveals the answer and taps whichever players guessed
+right.
+
+## Straight-Up Battle Online
+
+`straightup-online.html` is the same authentic scoring and timing rules
+as the same-room version, but built for teams on **separate devices** —
+a room code syncs everyone's screen to the same live state.
+
+**How the syncing works, since Netlify Functions can't push updates:**
+one browser creates the room and becomes the host, holding a secret
+token (saved in that browser's session) that's required for every
+scoring action. Every other browser — including the host's own — polls
+`/api/battle-room?code=XXXX` every 3 seconds and redraws from whatever
+the server currently says. The 20s/10s countdowns are computed locally
+by *every* viewer from a shared `stageStartedAt` timestamp the server
+sets, so everyone's clock agrees even between polls — but only the
+host's browser is allowed to act when a timer hits zero, mirroring a
+manual "incorrect" click.
+
+Spectators are read-only: they see the clue, scores, whose turn it is,
+and the timer, but no scoring buttons — the host still judges answers
+given out loud (e.g. over a call), the same as the in-room version. Room
+state lives in its own Netlify Blobs store (`netlify/functions/battle-room.js`)
+and expires after 12 hours.
+
+**Worth knowing:** rejoining as host after a page refresh works by
+re-entering the room code through "Join a Match" — if that browser's
+session still has the host token saved for that code, it's recognized
+as the host automatically. Clearing browser data (or switching devices)
+loses host status for that room; there's no recovery flow beyond that.
+
+## Printable Study Guide
+
+A one-page-per-book PDF (`assets/panther-bob-study-guide.pdf`), linked
+from the home page's Learning Resources — a cover page with a table of
+contents, then each book's title, author, and 3–5 key facts pulled
+straight from the board game's clue bank, ordered easiest to most
+obscure. Good for kids without device access, or for review before a
+match.
+
+Regenerate it after changing the book list or question bank:
+
+```bash
+pip install reportlab
+python3 scripts/generate-study-guide.py
+```
+
+This overwrites `assets/panther-bob-study-guide.pdf` from the current
+`data/books.json` and `data/seed-questions.json`.
 
 ## Adding questions later
 

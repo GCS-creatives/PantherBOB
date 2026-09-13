@@ -48,10 +48,40 @@ const GAMES = [
     href: "student-quiz.html",
   },
   {
+    name: "Solo Study",
+    emoji: "📖",
+    description: "Flashcard practice through the full question bank, with read-aloud.",
+    href: "study.html",
+  },
+  {
     name: "Straight-Up Battle",
     emoji: "⚔️",
     description: "Authentic 2-team match: 2 pts title, +1 author, rebounds worth 2 pts, real 20s/10s timers, 6/8/12-question rounds.",
     href: "straightup.html",
+  },
+  {
+    name: "Straight-Up Battle Online",
+    emoji: "🌐",
+    description: "Same rules, remote teams — a room code syncs scores live across separate devices. One host, everyone else spectates.",
+    href: "straightup-online.html",
+  },
+  {
+    name: "Mystery Book",
+    emoji: "🕵️",
+    description: "20 Questions — one host holds the secret book, everyone else asks yes/no questions to guess it.",
+    href: "mystery.html",
+  },
+  {
+    name: "Battle Bingo",
+    emoji: "🎱",
+    description: "A caller draws all 16 books in random order while everyone marks their own bingo card.",
+    href: "bingo.html",
+  },
+  {
+    name: "Two Truths and a Lie",
+    emoji: "🤥",
+    description: "Three statements about a book, only one is false. 1–5 players, host-scored.",
+    href: "truthlie.html",
   },
 ];
 
@@ -84,6 +114,14 @@ const RESOURCES = [
     description: "The official curated resource hub for all 16 books — descriptions, author interviews, read-alongs, book trailers, and lesson plans. May require a TeachingBooks sign-in.",
     href: "https://school.teachingbooks.net/tb.cgi?lid=15812",
     buttonLabel: "Visit Site ↗",
+    external: true,
+  },
+  {
+    name: "Printable Study Guide",
+    emoji: "🖨️",
+    description: "A downloadable PDF — key facts for all 16 books, easiest to most obscure. Good for kids without a device.",
+    href: "assets/panther-bob-study-guide.pdf",
+    buttonLabel: "Download PDF",
     external: true,
   },
 ];

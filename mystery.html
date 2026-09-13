@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mystery Book — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="mystery.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Mystery Book</h1>
+      <p class="subtitle">20 Questions · one host holds the secret</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+    </nav>
+  </header>
+
+  <main id="mystery-app">
+
+    <section id="mystery-intro-screen" class="panel">
+      <h2>How to Play</h2>
+      <p class="hint">One person (the host) looks at the secret book — everyone else asks yes/no questions to figure out which book it is, within 20 questions. Only the host should look at this screen.</p>
+      <button id="mystery-start-btn" class="btn btn-primary btn-large">Pick a Secret Book</button>
+    </section>
+
+    <section id="mystery-game-screen" class="panel hidden">
+
+      <div id="mystery-secret-card" class="mystery-secret-card">
+        <div class="mystery-secret-label">🤫 Host Only — Secret Book</div>
+        <div id="mystery-secret-blur" class="mystery-secret-blur">
+          <div class="mystery-secret-title" id="mystery-secret-title"></div>
+          <div class="mystery-secret-author" id="mystery-secret-author"></div>
+        </div>
+        <button id="mystery-toggle-btn" class="btn btn-secondary">Hide / Show</button>
+      </div>
+
+      <div class="mystery-counter">
+        <span id="mystery-count">0</span> / 20 questions asked
+      </div>
+
+      <div class="board-buttons mystery-controls">
+        <button id="mystery-ask-btn" class="btn btn-primary">+1 Question Asked</button>
+        <button id="mystery-guess-btn" class="btn btn-secondary">Someone Made a Guess</button>
+        <button id="mystery-giveup-btn" class="btn btn-ghost">Reveal &amp; Give Up</button>
+      </div>
+
+      <div id="mystery-guess-block" class="mystery-guess-block hidden">
+        <p class="hint">Was the guess correct?</p>
+        <div class="board-buttons">
+          <button id="mystery-guess-correct-btn" class="btn btn-green">Correct!</button>
+          <button id="mystery-guess-wrong-btn" class="btn btn-red">Not quite — keep going</button>
+        </div>
+      </div>
+
+      <div id="mystery-result" class="mystery-result hidden"></div>
+
+      <div class="board-controls">
+        <button id="mystery-new-btn" class="btn btn-primary hidden">New Mystery Book</button>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="mystery.js"></script>
+</body>
+</html>

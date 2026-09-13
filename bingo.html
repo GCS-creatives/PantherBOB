@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Battle Bingo — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="bingo.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Battle Bingo</h1>
+      <p class="subtitle">One caller, everyone plays their own card</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+    </nav>
+  </header>
+
+  <main id="bingo-app">
+
+    <section class="panel">
+      <h2>Caller</h2>
+      <p class="hint">One person (or the shared screen) runs this — draws all 16 books in random order, one at a time. Everyone else marks their own card below when they hear a match.</p>
+
+      <div id="bingo-caller-clue" class="bingo-caller-clue">Click "Call Next Book" to begin.</div>
+
+      <div class="board-buttons bingo-caller-controls">
+        <button id="bingo-call-btn" class="btn btn-primary btn-large">Call Next Book</button>
+        <button id="bingo-reset-caller-btn" class="btn btn-ghost">Reset Caller</button>
+      </div>
+
+      <div class="bingo-called-list">
+        <strong>Called so far (<span id="bingo-called-count">0</span>/16):</strong>
+        <div id="bingo-called-chips"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>My Card</h2>
+      <p class="hint">Click a square when the caller says that book. Get 4 in a row (across, down, or diagonal) to win.</p>
+      <button id="bingo-new-card-btn" class="btn btn-secondary">New Card</button>
+      <div id="bingo-card-grid" class="bingo-card-grid"></div>
+      <div id="bingo-win-banner" class="bingo-win-banner hidden">🎉 BINGO! 🎉</div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="tts.js"></script>
+  <script src="bingo.js"></script>
+</body>
+</html>

@@ -27,6 +27,12 @@
   font-size: 1.2rem;
   line-height: 1.5;
 }
+.su-speak-btn {
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  margin-top: 12px;
+}
+.su-speak-btn:hover { background: rgba(255,255,255,0.1); }
 
 .su-answer-block {
   background: #eef8ee;

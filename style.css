@@ -266,6 +266,12 @@ main#app {
   line-height: 1.5;
   margin-bottom: 20px;
 }
+.modal-speak-btn {
+  color: white;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  margin: -12px 0 16px;
+}
+.modal-speak-btn:hover { background: rgba(255,255,255,0.1); }
 .modal-answer-block {
   background: rgba(255,255,255,0.08);
   border-radius: 10px;

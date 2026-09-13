@@ -1,17 +1,11 @@
 // authors.js — reads each author's name aloud using the browser's
 // built-in speech synthesis (window.speechSynthesis). No audio files,
 // no external service — works offline once the page has loaded.
+// speak() itself now lives in tts.js, included before this file.
 
 async function loadBooks() {
   const res = await fetch("./data/books.json");
   return res.json();
-}
-
-function speak(text) {
-  if (!("speechSynthesis" in window)) return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.rate = 0.9;
-  window.speechSynthesis.speak(utterance);
 }
 
 function renderList(books) {

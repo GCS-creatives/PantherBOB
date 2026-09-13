@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Straight-Up Battle Online — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="straightup.css" />
+<link rel="stylesheet" href="straightup-online.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Straight-Up Battle Online</h1>
+      <p class="subtitle">Same rules, remote teams — one host controls scoring, everyone watches live</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="straightup.html" class="btn btn-ghost">Same-Room Version</a>
+    </nav>
+  </header>
+
+  <main id="suo-app">
+
+    <!-- ===================== CHOOSE MODE ===================== -->
+    <section id="suo-choice-screen" class="panel">
+      <h2>Host or Join?</h2>
+      <p class="hint">One person hosts (controls the match and scores it based on what they hear); everyone else joins with the room code to watch scores update live on their own device.</p>
+      <div class="board-buttons suo-choice-buttons">
+        <button id="suo-show-host-btn" class="btn btn-primary btn-large">Host a Match</button>
+        <button id="suo-show-join-btn" class="btn btn-secondary btn-large">Join a Match</button>
+      </div>
+    </section>
+
+    <!-- ===================== HOST SETUP ===================== -->
+    <section id="suo-host-setup-screen" class="panel hidden">
+      <h2>Host a Match</h2>
+      <div class="player-name-inputs">
+        <input id="suo-team-a-name" type="text" placeholder="Team A name" maxlength="30" />
+        <input id="suo-team-b-name" type="text" placeholder="Team B name" maxlength="30" />
+      </div>
+      <div class="player-count-row">
+        <label for="suo-round-length">Questions per round</label>
+        <select id="suo-round-length">
+          <option value="6">6 (district)</option>
+          <option value="8">8 (district)</option>
+          <option value="12" selected>12 (state/regional)</option>
+        </select>
+      </div>
+      <button id="suo-create-btn" class="btn btn-primary btn-large">Create Room</button>
+      <button id="suo-back-from-host-btn" class="btn btn-ghost">Back</button>
+    </section>
+
+    <!-- ===================== ROOM CODE DISPLAY ===================== -->
+    <section id="suo-code-screen" class="panel hidden">
+      <h2>Room Created!</h2>
+      <p class="hint">Share this code with the other team so they can join from their own device.</p>
+      <div class="suo-room-code" id="suo-room-code-display"></div>
+      <button id="suo-copy-code-btn" class="btn btn-secondary">Copy Code</button>
+      <button id="suo-enter-match-btn" class="btn btn-primary btn-large">Continue to Match</button>
+    </section>
+
+    <!-- ===================== JOIN ===================== -->
+    <section id="suo-join-screen" class="panel hidden">
+      <h2>Join a Match</h2>
+      <p class="hint">Enter the room code your host shared with you.</p>
+      <input id="suo-join-code-input" type="text" maxlength="5" placeholder="ROOM CODE" class="suo-code-input" />
+      <button id="suo-join-btn" class="btn btn-primary btn-large">Join</button>
+      <button id="suo-back-from-join-btn" class="btn btn-ghost">Back</button>
+      <p id="suo-join-error" class="status-msg error"></p>
+    </section>
+
+    <!-- ===================== MATCH / SPECTATE ===================== -->
+    <section id="suo-match-screen" class="panel hidden">
+
+      <div class="suo-room-banner">Room <strong id="suo-active-code"></strong> <span id="suo-host-badge" class="suo-host-badge hidden">(you're hosting)</span></div>
+
+      <div class="scoreboard" id="suo-scoreboard"></div>
+      <div class="su-up-indicator" id="suo-up-indicator"></div>
+
+      <div id="suo-clue-card" class="su-clue-card">
+        <div class="su-clue-category" id="suo-clue-category"></div>
+        <div class="su-clue-text" id="suo-clue-text">Waiting for the host to draw a question…</div>
+        <button id="suo-speak-btn" class="btn btn-ghost su-speak-btn hidden">🔊 Read Aloud</button>
+      </div>
+
+      <div id="suo-answer-block" class="su-answer-block hidden">
+        <div class="su-answer-label">Answer</div>
+        <div class="su-answer" id="suo-answer"></div>
+      </div>
+
+      <!-- Host-only controls -->
+      <div id="suo-host-controls" class="hidden">
+        <div id="suo-stage-title" class="su-stage hidden">
+          <div class="su-timer" id="suo-title-timer"></div>
+          <p class="hint">Did <strong id="suo-stage-title-team"></strong> get the title correct?</p>
+          <p class="su-rule-note">Remember: ignore "a," "an," and "the" at the start of the title when judging.</p>
+          <div class="board-buttons">
+            <button id="suo-title-correct-btn" class="btn btn-green">Correct Title (+2)</button>
+            <button id="suo-title-wrong-btn" class="btn btn-red">Incorrect / No Answer</button>
+          </div>
+        </div>
+        <div id="suo-stage-author" class="su-stage hidden">
+          <p class="hint">Did they also give the correct author?</p>
+          <div class="board-buttons">
+            <button id="suo-author-correct-btn" class="btn btn-green">Correct Author (+1)</button>
+            <button id="suo-author-wrong-btn" class="btn btn-secondary">No / Not Given</button>
+          </div>
+        </div>
+        <div id="suo-stage-steal" class="su-stage hidden">
+          <div class="su-timer" id="suo-steal-timer"></div>
+          <p class="hint">Rebound: can <strong id="suo-stage-steal-team"></strong> answer with the correct title?</p>
+          <div class="board-buttons">
+            <button id="suo-steal-correct-btn" class="btn btn-green">Rebound! Correct Title (+2)</button>
+            <button id="suo-steal-wrong-btn" class="btn btn-secondary">No Rebound</button>
+          </div>
+        </div>
+
+        <div class="board-controls">
+          <span class="round-label" id="suo-question-count"></span>
+          <div class="board-buttons">
+            <button id="suo-draw-btn" class="btn btn-primary">Next Question</button>
+            <button id="suo-end-btn" class="btn btn-ghost">End Match</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="suo-spectator-note" class="hint suo-spectator-note">You're watching this match live — the host controls scoring based on what they hear.</div>
+
+    </section>
+
+    <!-- ===================== RESULTS ===================== -->
+    <section id="suo-results-screen" class="panel hidden">
+      <h2 id="suo-results-headline"></h2>
+      <p class="hint" id="suo-results-detail"></p>
+      <div id="suo-host-results-controls" class="hidden">
+        <button id="suo-tiebreaker-btn" class="btn btn-primary btn-large hidden">Play Tiebreaker Round (12 questions)</button>
+        <button id="suo-rematch-btn" class="btn btn-primary btn-large">Rematch (same teams, new questions)</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="tts.js"></script>
+  <script src="straightup-online.js"></script>
+</body>
+</html>

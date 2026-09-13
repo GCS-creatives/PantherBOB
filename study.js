@@ -1,4 +1,4 @@
-// student-quiz.js — practice mode for approved student-submitted questions
+// study.js — Solo Study practice mode for the full board-game question bank
 
 let questions = [];
 let currentIndex = 0;
@@ -12,23 +12,23 @@ function shuffle(arr) {
   return a;
 }
 
-async function loadApproved() {
-  const res = await fetch("/api/student-questions?status=approved");
+async function loadBank() {
+  const res = await fetch("/api/questions");
   return res.json();
 }
 
 function showQuestion() {
   const q = questions[currentIndex];
   document.getElementById("sq-progress").textContent = `Question ${currentIndex + 1} of ${questions.length}`;
-  document.getElementById("sq-question").textContent = q.questionText;
-  document.getElementById("sq-answer").textContent = `${q.bookTitle} — ${q.bookAuthor}`;
-  document.getElementById("sq-credit").textContent = `Written by ${q.studentName}`;
+  document.getElementById("sq-category").textContent = q.category || "";
+  document.getElementById("sq-question").textContent = q.clue;
+  document.getElementById("sq-answer").textContent = `${q.answerTitle} — ${q.answerAuthor}`;
   document.getElementById("sq-answer-block").classList.add("hidden");
   document.getElementById("sq-reveal-btn").classList.remove("hidden");
 }
 
 document.getElementById("sq-speak-btn").addEventListener("click", () => {
-  speak(questions[currentIndex].questionText);
+  speak(questions[currentIndex].clue);
 });
 
 document.getElementById("sq-reveal-btn").addEventListener("click", () => {
@@ -49,7 +49,7 @@ document.getElementById("sq-shuffle-btn").addEventListener("click", () => {
 
 (async function init() {
   document.getElementById("copyright-year").textContent = new Date().getFullYear();
-  questions = shuffle(await loadApproved());
+  questions = shuffle(await loadBank());
 
   if (questions.length === 0) {
     document.getElementById("sq-empty").classList.remove("hidden");

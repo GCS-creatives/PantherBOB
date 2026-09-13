@@ -282,6 +282,7 @@ const revealAnswerBtn = document.getElementById("reveal-answer-btn");
 const awardBlock = document.getElementById("award-block");
 const awardPlayerButtons = document.getElementById("award-player-buttons");
 const noOneBtn = document.getElementById("no-one-btn");
+const modalSpeakBtn = document.getElementById("modal-speak-btn");
 
 let activeClue = null; // { category, points, questionId, cellKey }
 
@@ -303,6 +304,10 @@ function openClue(category, points, questionId) {
   renderAwardButtons();
   clueModal.classList.remove("hidden");
 }
+
+modalSpeakBtn.addEventListener("click", () => {
+  if (activeClue) speak(findQuestionById(activeClue.questionId).clue);
+});
 
 function renderAwardButtons() {
   awardPlayerButtons.innerHTML = "";

@@ -1,0 +1,51 @@
+.tl-book-title {
+  text-align: center;
+  font-weight: 800;
+  color: var(--navy);
+  font-size: 1.3rem;
+  margin-bottom: 16px;
+}
+
+.tl-statements {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.tl-statement {
+  background: var(--navy);
+  color: white;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 1.02rem;
+  line-height: 1.4;
+}
+.tl-statement .tl-letter {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy-dark);
+  font-weight: 800;
+  border-radius: 999px;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  line-height: 26px;
+  margin-right: 10px;
+}
+.tl-statement.tl-lie {
+  background: var(--red);
+}
+.tl-statement.tl-true {
+  background: var(--green);
+}
+
+.tl-controls { justify-content: center; margin-bottom: 14px; }
+
+.tl-award-block {
+  background: #f4f5ff;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.tl-award-block .board-buttons { justify-content: center; }
+.tl-award-block .btn { background: var(--green); color: white; }
