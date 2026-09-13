@@ -4,16 +4,39 @@
 ## What's in here
 
 ```
-index.html              the game (player setup, scoreboard, board)
+index.html               the home page — pick which game to play
+board.html               the Jeopardy-style board game (player setup, scoreboard, board)
+match.html               memory-match game (two players, timed)
+drill.html               speed drill (bouncing tiles, 1-5 players, timed)
 admin.html               question bank manager (type in or import questions)
-style.css / admin.css
-app.js                   game logic
+landing.css / style.css / admin.css / match.css / drill.css
+landing.js               home page logic (the list of games shown as cards)
+app.js                   board game logic
+match.js                 memory-match game logic
+drill.js                 speed drill logic
 admin.js                 admin page logic
 data/seed-questions.json 80 starter questions across all 8 categories
+data/books.json          the 16 books (title/author) used by the match & drill games
 netlify/functions/questions.js   the backend — reads/writes questions via Netlify Blobs
 netlify.toml              Netlify build + routing config
 package.json              declares the @netlify/blobs dependency
+assets/card-back-logo.png the Battle of the Books panther logo (memory-match card backs)
 ```
+
+## The home page
+
+`index.html` is now a simple game picker — it doesn't play anything itself,
+it just lists the games as cards linking to their own pages. Every game
+page's header also links back to it ("🏠 All Games") plus across to the
+other games.
+
+**Adding a future game:** drop in its own `<name>.html`/`.css`/`.js` files
+the same way the existing games are structured, then add one object to the
+`GAMES` array at the top of `landing.js` (name, emoji, short description,
+and the filename to link to) — the card grid re-renders itself from that
+list, so nothing else on the home page needs to change. Don't forget to
+add a nav link to the new page from the other games' headers, the way they
+already link to each other.
 
 ## How it works
 
@@ -80,6 +103,43 @@ netlify dev
 This runs the site *and* the serverless function together at `localhost:8888`,
 using a local Blobs emulator so you can safely test adding/importing questions
 before they ever touch your real deployed data.
+
+## Panther Bob Match (memory game)
+
+A second, simpler game lives at `match.html`, linked from the header of both
+other pages. Two players take turns flipping cards to pair up a book's title
+with its author. Each round deals out 8 of the 16 books (16 cards); a
+countdown timer (60 seconds by default, adjustable at setup) runs for the
+whole round, and whoever has the most pairs when it hits zero — or when the
+board is fully cleared — wins.
+
+Which 8 books show up rotates the same way the board game's questions do:
+titles already used in the current cycle are tracked in the browser's
+`localStorage`, so you see every book across roughly two rounds before
+anything repeats. "Play Again" deals a fresh round and keeps both players'
+scores; "New Game" resets everything and returns to the name/timer setup.
+
+This game reads from `data/books.json` (just title + author, no clues) —
+if you ever change the reading list, update that file rather than
+`data/seed-questions.json`.
+
+## Panther Bob Drill (speed match)
+
+A third page, `drill.html`, is a fast-paced practice drill: all 16 books'
+titles and authors bounce around a bounded arena (classic "screensaver"
+physics — they bounce off the walls, not off each other). Click a title,
+then click the author you think matches it (or the reverse) — a correct
+pair pops and disappears; a wrong guess just flashes red and deselects,
+no penalty besides lost time.
+
+Each player gets one timed turn on a fresh, freshly-shuffled board (default
+time cap: 120 seconds, adjustable at setup). Clearing all 16 pairs ends
+that player's turn early and locks in their elapsed time; running out of
+time ends the turn with however many pairs they'd found. After everyone's
+gone, a leaderboard ranks players by pairs found first, then — among
+anyone who fully cleared the board — by who did it fastest.
+
+Like the memory-match game, this also reads straight from `data/books.json`.
 
 ## Adding questions later
 

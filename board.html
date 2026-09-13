@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panther Bob Quiz — NC Battle of the Books</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Panther Bob Quiz</h1>
+      <p class="subtitle">NC Middle School Battle of the Books · 2026–2027</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="match.html" class="btn btn-ghost">Memory Match</a>
+      <a href="drill.html" class="btn btn-ghost">Speed Drill</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="app">
+
+    <!-- ===================== SETUP SCREEN ===================== -->
+    <section id="setup-screen" class="panel">
+      <h2>New Game</h2>
+      <p class="hint">Choose how many players (1–5), give each a name, then start the first round.</p>
+
+      <div class="player-count-row">
+        <label for="player-count">Number of players</label>
+        <select id="player-count">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <div id="player-name-inputs" class="player-name-inputs"></div>
+
+      <button id="start-game-btn" class="btn btn-primary btn-large">Start Game</button>
+    </section>
+
+    <!-- ===================== GAME SCREEN ===================== -->
+    <section id="game-screen" class="panel hidden">
+
+      <div class="scoreboard" id="scoreboard"></div>
+
+      <div class="board-controls">
+        <span id="round-label" class="round-label">Round 1</span>
+        <div class="board-buttons">
+          <button id="new-round-btn" class="btn btn-secondary">New Round (keep scores)</button>
+          <button id="new-game-btn" class="btn btn-ghost">New Game</button>
+        </div>
+      </div>
+
+      <div id="board" class="board"></div>
+
+    </section>
+
+  </main>
+
+  <!-- ===================== CLUE MODAL ===================== -->
+  <div id="clue-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-category" id="modal-category"></div>
+      <div class="modal-points" id="modal-points"></div>
+
+      <div class="modal-clue" id="modal-clue"></div>
+
+      <div id="modal-answer-block" class="modal-answer-block hidden">
+        <div class="modal-answer-label">Answer</div>
+        <div class="modal-answer" id="modal-answer"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="reveal-answer-btn" class="btn btn-primary">Show Answer</button>
+      </div>
+
+      <div id="award-block" class="award-block hidden">
+        <p class="hint">Who answered correctly?</p>
+        <div id="award-player-buttons" class="award-player-buttons"></div>
+        <button id="no-one-btn" class="btn btn-ghost">No one got it</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

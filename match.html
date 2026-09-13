@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panther Bob Match — NC Battle of the Books</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="match.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Panther Bob Match</h1>
+      <p class="subtitle">Title &amp; Author Memory Match · Two Players</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="board.html" class="btn btn-ghost">Board Game</a>
+      <a href="drill.html" class="btn btn-ghost">Speed Drill</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="match-app">
+
+    <!-- ===================== SETUP SCREEN ===================== -->
+    <section id="match-setup-screen" class="panel">
+      <h2>New Match Round</h2>
+      <p class="hint">Two players take turns flipping cards to find each book's matching title/author pair. Each round uses 8 of the 16 books, rotating so you see fresh pairs before anything repeats.</p>
+
+      <div class="player-name-inputs">
+        <input id="match-player-1" type="text" placeholder="Player 1 name" maxlength="24" />
+        <input id="match-player-2" type="text" placeholder="Player 2 name" maxlength="24" />
+      </div>
+
+      <div class="player-count-row">
+        <label for="match-timer-seconds">Round length (seconds)</label>
+        <input id="match-timer-seconds" type="number" min="20" max="600" step="5" value="60" />
+      </div>
+
+      <button id="match-start-btn" class="btn btn-primary btn-large">Start Round</button>
+    </section>
+
+    <!-- ===================== GAME SCREEN ===================== -->
+    <section id="match-game-screen" class="panel hidden">
+
+      <div class="match-top-bar">
+        <div class="match-scores">
+          <div id="match-score-1" class="match-score-card"></div>
+          <div id="match-score-2" class="match-score-card"></div>
+        </div>
+        <div class="match-timer" id="match-timer">60</div>
+      </div>
+
+      <div id="match-turn-indicator" class="match-turn-indicator"></div>
+
+      <div id="match-grid" class="match-grid"></div>
+
+      <div class="board-controls">
+        <div class="board-buttons">
+          <button id="match-play-again-btn" class="btn btn-secondary">Play Again (keep scores)</button>
+          <button id="match-new-game-btn" class="btn btn-ghost">New Game</button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ===================== RESULTS MODAL ===================== -->
+  <div id="match-results-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-category">Round Over</div>
+      <div class="modal-points" id="match-result-headline"></div>
+      <div class="modal-clue" id="match-result-detail"></div>
+      <div class="modal-actions">
+        <button id="match-result-play-again-btn" class="btn btn-primary">Play Again (keep scores)</button>
+        <button id="match-result-new-game-btn" class="btn btn-ghost">New Game</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="match.js"></script>
+</body>
+</html>

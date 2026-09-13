@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Panther Bob Drill — NC Battle of the Books</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="drill.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Panther Bob Drill</h1>
+      <p class="subtitle">Speed Match Drill · Title &amp; Author</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="board.html" class="btn btn-ghost">Board Game</a>
+      <a href="match.html" class="btn btn-ghost">Memory Match</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="drill-app">
+
+    <!-- ===================== SETUP SCREEN ===================== -->
+    <section id="drill-setup-screen" class="panel">
+      <h2>New Drill</h2>
+      <p class="hint">All 16 books' titles and authors bounce around the screen. Click a title, then click its matching author (or the other way around) — a correct pair vanishes. Clear every pair before time runs out! Players take turns, one board each; fastest full clear wins.</p>
+
+      <div class="player-count-row">
+        <label for="drill-player-count">Number of players</label>
+        <select id="drill-player-count">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+
+      <div id="drill-player-name-inputs" class="player-name-inputs"></div>
+
+      <div class="player-count-row">
+        <label for="drill-timer-seconds">Time cap per turn (seconds)</label>
+        <input id="drill-timer-seconds" type="number" min="30" max="600" step="10" value="120" />
+      </div>
+
+      <button id="drill-start-btn" class="btn btn-primary btn-large">Start Drill</button>
+    </section>
+
+    <!-- ===================== READY SCREEN (between turns) ===================== -->
+    <section id="drill-ready-screen" class="panel hidden">
+      <h2 id="drill-ready-headline"></h2>
+      <p class="hint">All 16 titles and authors will be bouncing on the board. Click when ready — the timer starts immediately.</p>
+      <button id="drill-ready-go-btn" class="btn btn-primary btn-large">Go!</button>
+    </section>
+
+    <!-- ===================== GAME SCREEN ===================== -->
+    <section id="drill-game-screen" class="panel hidden">
+      <div class="drill-top-bar">
+        <div class="drill-turn-name" id="drill-turn-name"></div>
+        <div class="drill-progress" id="drill-progress">0 / 16</div>
+        <div class="drill-timer" id="drill-timer">120</div>
+      </div>
+
+      <div id="drill-arena" class="drill-arena"></div>
+    </section>
+
+  </main>
+
+  <!-- ===================== TURN RESULT MODAL ===================== -->
+  <div id="drill-turn-result-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-category">Turn Complete</div>
+      <div class="modal-points" id="drill-turn-result-headline"></div>
+      <div class="modal-clue" id="drill-turn-result-detail"></div>
+      <div class="modal-actions">
+        <button id="drill-turn-result-next-btn" class="btn btn-primary">Next Player</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== FINAL LEADERBOARD MODAL ===================== -->
+  <div id="drill-leaderboard-modal" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <div class="modal-category">Final Results</div>
+      <div id="drill-leaderboard-list" class="drill-leaderboard-list"></div>
+      <div class="modal-actions">
+        <button id="drill-play-again-btn" class="btn btn-primary">Play Again (new boards)</button>
+        <button id="drill-new-game-btn" class="btn btn-ghost">New Game</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="drill.js"></script>
+</body>
+</html>
