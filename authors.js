@@ -18,18 +18,23 @@ function renderList(books) {
   const container = document.getElementById("authors-list");
   container.innerHTML = "";
 
-  // De-duplicate authors that appear on more than one row isn't needed here
-  // (every author on this list is distinct), but keep title alongside for
-  // context.
   books.forEach((b) => {
     const row = document.createElement("div");
     row.className = "author-row";
+
+    const tbLink = b.teachingBooksUrl
+      ? `<a class="author-tb-btn" href="${b.teachingBooksUrl}" target="_blank" rel="noopener noreferrer" title="Professional recording on TeachingBooks">🎓 TeachingBooks</a>`
+      : `<span class="author-tb-missing" title="Not currently listed on TeachingBooks">Not on TeachingBooks</span>`;
+
     row.innerHTML = `
       <div class="author-info">
         <div class="author-name">${escapeHtml(b.author)}</div>
         <div class="author-book">${escapeHtml(b.title)}</div>
       </div>
-      <button class="author-play-btn" aria-label="Play pronunciation of ${escapeHtml(b.author)}">🔊</button>
+      <div class="author-actions">
+        <button class="author-play-btn" aria-label="Play pronunciation of ${escapeHtml(b.author)}">🔊</button>
+        ${tbLink}
+      </div>
     `;
     row.querySelector(".author-play-btn").addEventListener("click", () => speak(b.author));
     container.appendChild(row);

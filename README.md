@@ -233,6 +233,15 @@ it's free and instant. A "Play All" button reads through the whole list
 in order. If a browser doesn't support speech synthesis, the page shows a
 plain warning instead of silently doing nothing.
 
+Each author row also links directly to their professionally recorded
+pronunciation on TeachingBooks where one exists — **13 of the 16** authors
+have one (verified individually; the missing three are Sonia Purnell,
+Emily Bowen Cohen, and Alice Hoffman, whose rows show "Not on
+TeachingBooks" instead). Those direct links live in `data/books.json`
+under `teachingBooksUrl` (`null` for the three without one) — the same
+file used by the match, drill, and wheel games, so a book's
+title/author/link all stay in one place.
+
 The home page's Learning Resources section also links out to
 [TeachingBooks' Author & Illustrator Pronunciation Guide](https://school.teachingbooks.net/pronunciations.cgi)
 — a professionally recorded pronunciation library. It looked like it may
