@@ -47,6 +47,12 @@ const GAMES = [
     description: "Practice with teacher-approved questions written by classmates.",
     href: "student-quiz.html",
   },
+  {
+    name: "Straight-Up Battle",
+    emoji: "⚔️",
+    description: "Authentic 2-team match format — 2 pts for title, +1 for author, steals worth 2 pts. Host-scored.",
+    href: "straightup.html",
+  },
 ];
 
 const RESOURCES = [

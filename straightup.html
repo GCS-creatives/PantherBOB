@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Straight-Up Battle — Panther Bob Games</title>
+<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="straightup.css" />
+</head>
+<body>
+  <script src="gate.js"></script>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <h1 class="logo">🐾 Straight-Up Battle</h1>
+      <p class="subtitle">Authentic Battle of the Books match format · 2 teams</p>
+    </div>
+    <nav class="header-nav">
+      <a href="index.html" class="btn btn-ghost">🏠 All Games</a>
+      <a href="admin.html" class="btn btn-ghost">Manage Questions</a>
+    </nav>
+  </header>
+
+  <main id="su-app">
+
+    <!-- ===================== SETUP SCREEN ===================== -->
+    <section id="su-setup-screen" class="panel">
+      <h2>New Match</h2>
+      <p class="hint">Scored the authentic way: 2 points for the correct title, 1 more for the correct author. If the team up misses, the other team can steal — 2 points for the correct title only.</p>
+
+      <div class="player-name-inputs">
+        <input id="su-team-a-name" type="text" placeholder="Team A name" maxlength="30" />
+        <input id="su-team-b-name" type="text" placeholder="Team B name" maxlength="30" />
+      </div>
+
+      <button id="su-start-btn" class="btn btn-primary btn-large">Start Match</button>
+    </section>
+
+    <!-- ===================== MATCH SCREEN ===================== -->
+    <section id="su-match-screen" class="panel hidden">
+
+      <div class="scoreboard" id="su-scoreboard"></div>
+
+      <div class="su-up-indicator" id="su-up-indicator"></div>
+
+      <div id="su-clue-card" class="su-clue-card">
+        <div class="su-clue-category" id="su-clue-category"></div>
+        <div class="su-clue-text" id="su-clue-text">Click "Next Question" to draw a clue.</div>
+      </div>
+
+      <div id="su-answer-block" class="su-answer-block hidden">
+        <div class="su-answer-label">Answer</div>
+        <div class="su-answer" id="su-answer"></div>
+      </div>
+
+      <!-- Stage 1: did the "up" team get the title right? -->
+      <div id="su-stage-title" class="su-stage hidden">
+        <p class="hint">Did <strong id="su-stage-title-team"></strong> get the title correct?</p>
+        <div class="board-buttons">
+          <button id="su-title-correct-btn" class="btn btn-green">Correct Title (+2)</button>
+          <button id="su-title-wrong-btn" class="btn btn-red">Incorrect / No Answer</button>
+        </div>
+      </div>
+
+      <!-- Stage 2: bonus author point -->
+      <div id="su-stage-author" class="su-stage hidden">
+        <p class="hint">Did they also give the correct author?</p>
+        <div class="board-buttons">
+          <button id="su-author-correct-btn" class="btn btn-green">Correct Author (+1)</button>
+          <button id="su-author-wrong-btn" class="btn btn-secondary">No / Not Given</button>
+        </div>
+      </div>
+
+      <!-- Stage 3: steal opportunity -->
+      <div id="su-stage-steal" class="su-stage hidden">
+        <p class="hint">Can <strong id="su-stage-steal-team"></strong> steal with the correct title?</p>
+        <div class="board-buttons">
+          <button id="su-steal-correct-btn" class="btn btn-green">Steal! Correct Title (+2)</button>
+          <button id="su-steal-wrong-btn" class="btn btn-secondary">No Steal</button>
+        </div>
+      </div>
+
+      <div class="board-controls">
+        <span class="round-label" id="su-question-count"></span>
+        <div class="board-buttons">
+          <button id="su-next-btn" class="btn btn-primary" disabled>Next Question</button>
+          <button id="su-end-btn" class="btn btn-ghost">End Match</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===================== RESULTS SCREEN ===================== -->
+    <section id="su-results-screen" class="panel hidden">
+      <h2 id="su-results-headline"></h2>
+      <p class="hint" id="su-results-detail"></p>
+      <button id="su-rematch-btn" class="btn btn-primary btn-large">Rematch (same teams, new questions)</button>
+      <button id="su-new-match-btn" class="btn btn-ghost">New Match Setup</button>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>GCS Creatives Project — Grace Campbell-Sheran — &copy; <span id="copyright-year"></span></p>
+  </footer>
+
+  <script src="straightup.js"></script>
+</body>
+</html>

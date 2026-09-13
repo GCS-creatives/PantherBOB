@@ -1,0 +1,60 @@
+.su-up-indicator {
+  text-align: center;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 14px;
+  font-size: 1.1rem;
+}
+
+.su-clue-card {
+  background: var(--navy);
+  color: white;
+  border-radius: var(--radius);
+  padding: 28px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+.su-clue-category {
+  color: var(--gold);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+  min-height: 1em;
+}
+.su-clue-text {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.su-answer-block {
+  background: #eef8ee;
+  border: 1px solid #bfe6bf;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.su-answer-label {
+  color: #1b5e33;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.su-answer {
+  font-weight: 700;
+  color: #1b5e33;
+  font-size: 1.1rem;
+}
+
+.su-stage {
+  background: #f4f5ff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  text-align: center;
+}
+.su-stage .hint { margin: 0 0 10px; }
+.su-stage .board-buttons { justify-content: center; }

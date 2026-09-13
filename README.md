@@ -14,8 +14,9 @@ authors.html             author name pronunciations (text-to-speech, no audio fi
 submit.html              student BOB question submission form
 review.html              teacher approval queue for student submissions
 student-quiz.html        practice mode using approved student questions
+straightup.html          Straight-Up Battle — authentic 2-team match format, host-scored
 admin.html               question bank manager (type in or import questions)
-landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css / authors.css / submit.css / review.css / student-quiz.css
+landing.css / style.css / admin.css / match.css / drill.css / wheel.css / crossword.css / authors.css / submit.css / review.css / student-quiz.css / straightup.css
 landing.js               home page logic (the lists of games/resources shown as cards)
 gate.js                  site-wide PIN gate + Change PIN control (loaded on every page)
 app.js                   board game logic
@@ -27,6 +28,7 @@ authors.js               author pronunciation logic (Web Speech API)
 submit.js                student question submission logic
 review.js                teacher approval queue logic
 student-quiz.js          approved-student-question practice mode logic
+straightup.js            Straight-Up Battle match logic
 admin.js                 admin page logic
 data/seed-questions.json 80 starter questions across all 8 categories
 data/books.json          the 16 books (title/author) used by match, drill, wheel, crossword & authors
@@ -299,6 +301,31 @@ teacher-only login. `review.html` isn't linked from the student-facing
 home page menu, but anyone with the site PIN could still navigate to it
 directly by URL. If real teacher-only access matters, that would need a
 second, separate PIN gate just for admin/review pages — not built yet.
+
+## Straight-Up Battle
+
+`straightup.html` — the authentic 2-team match format, one host controls
+the flow (same device/room, no networking). Setup just asks for both
+team names.
+
+Scoring is fixed and matches the real format: the team "up" gets **2
+points** for the correct title, **+1 more** for the correct author. If
+they miss, the other team gets a **steal** attempt — **2 points** for the
+correct title only, no author bonus on a steal. Which team is "up"
+**alternates every question regardless of outcome** — that's the real
+rule; it's not "winner stays up."
+
+Questions are drawn from the **combined pool**: everything in the live
+board-game bank (the 80 starters plus anything added via Manage
+Questions) plus every teacher-approved student submission, shuffled
+together so a match won't repeat a question until the whole combined set
+has been used once. Category/points from that bank aren't used for
+scoring here (Straight-Up Battle's scoring is always 2/1/2), but the
+category still shows above each clue for a bit of context.
+
+"End Match" shows the final score and winner at any point; "Rematch"
+keeps the same two team names and deals a fresh shuffled run through the
+question pool.
 
 ## Adding questions later
 
