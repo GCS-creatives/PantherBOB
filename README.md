@@ -4,6 +4,7 @@
 ## What's in here
 
 ```
+google-version/          Google Sites version — see google-version/SETUP.md
 index.html               the home page — pick which game to play
 board.html               the Jeopardy-style board game (player setup, scoreboard, board)
 match.html               memory-match game (two players, timed)
@@ -60,6 +61,14 @@ assets/card-back-logo.png the Battle of the Books panther logo (memory-match car
 assets/match-background.jpg  background art for the memory-match page
 assets/panther-bob-study-guide.pdf  printable study guide (see scripts/generate-study-guide.py)
 ```
+
+
+## Google Sites version (for school networks that block Netlify)
+
+The `google-version/` folder runs these same game files on Google Apps
+Script + Google Sites, with a Google Sheet replacing Netlify Blobs and school
+Google sign-in replacing the PIN. GitHub stays the main copy, and Google
+re-reads it every ~10 minutes. Setup steps: `google-version/SETUP.md`.
 
 ## The home page
 

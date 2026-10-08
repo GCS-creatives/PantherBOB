@@ -39,6 +39,17 @@ function makeId() {
   return `sq_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
 }
 
+// Keeps only a first name and last initial, e.g. "Jordan Michaels" → "Jordan M."
+// (student names are shown publicly in Student Questions practice mode).
+function shortName(raw) {
+  const cleaned = String(raw || "").replace(/[^A-Za-zÀ-ÿ.'\- ]/g, "").trim();
+  if (!cleaned) return "Anonymous";
+  const parts = cleaned.split(/\s+/);
+  const first = parts[0].slice(0, 20);
+  const initial = parts.length > 1 ? " " + parts[parts.length - 1].charAt(0).toUpperCase() + "." : "";
+  return first + initial;
+}
+
 function validateSubmission(body) {
   const errors = [];
   if (!body.bookTitle || typeof body.bookTitle !== "string") errors.push("bookTitle is required.");
@@ -87,7 +98,7 @@ exports.handler = async (event) => {
 
       const record = {
         id: makeId(),
-        studentName: (body.studentName || "").trim() || "Anonymous",
+        studentName: shortName(body.studentName),
         bookTitle: body.bookTitle,
         bookAuthor: body.bookAuthor,
         questionText,
